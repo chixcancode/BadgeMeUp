@@ -3,4 +3,17 @@
 @{
 }
 
-<h2>My Badges</h2>
+<h2>Badges for @Model.Alias</h2>
+
+@foreach(var badge in Model.Badges)
+{
+    <div class="card" style="width: 18rem;">
+        <img src="~/sample-badge-image.jpg" class="card-img-top" style="height: 70px; width: 70px;" />
+        <div class="card-body">
+            <h5 class="card-title">@badge.Name</h5>
+            <p>@badge.Description</p>
+            <h6>To Earn:</h6>
+            <p>@Html.Raw(badge.Criteria)</p>
+        </div>
+    </div>
+}
