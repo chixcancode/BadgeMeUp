@@ -1,5 +1,6 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using BadgeMeUp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BadgeMeUp.Pages
 {
@@ -7,6 +8,7 @@ namespace BadgeMeUp.Pages
     {
         public List<Badge> Badges;
         public string? Alias;
+        public User SelectedUser;
 
         public MyBadgesModel()
         {
@@ -15,18 +17,32 @@ namespace BadgeMeUp.Pages
             {
                 Name = "Customer Email",
                 Criteria = "Friendly<br />Clear recap with next steps",
-                BadgeOwnerAlias = "lalovi",
+                //BadgeOwner = new User("jayoung"),
                 BadgeType = BadgeType.SoftSkills,
                 Description = "Awarded when you master the art of the follow-up email"
             });
+            this.SelectedUser = new User("UNUSED");
         }
 
         public void OnGet(string? alias)
         {
-            if (alias != null)
-                this.Alias = alias;
-            else
-                this.Alias = "jayoung";
+            if(alias == null)
+            {
+                alias = "jayoung";
+            }
+
+            using (var db = new BadgeContext())
+            {
+                
+                var user = db.Users?.Include(x => x.AssignedBadges).FirstOrDefault(x => x.Alias == alias);
+
+                Console.WriteLine(user.AssignedBadges.Count());
+
+                if (user != null)
+                {
+                    this.SelectedUser = user;
+                }
+            }
         }
     }
 }

@@ -3,9 +3,9 @@
 @{
 }
 
-<h2>Badges for @Model.Alias</h2>
+<h2>Badges for @Model.SelectedUser.Alias</h2>
 
-@foreach(var badge in Model.Badges)
+@foreach(var badge in Model.SelectedUser.AssignedBadges)
 {
     <div class="card" style="width: 18rem;">
         <img src="~/sample-badge-image.jpg" class="card-img-top" style="height: 70px; width: 70px;" />

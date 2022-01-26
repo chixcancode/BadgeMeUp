@@ -22,4 +22,7 @@ app.UseRouting();
 
 app.MapRazorPages();
 
+var dbContext = new BadgeMeUp.BadgeContext();
+BadgeMeUp.DbInitializer.Initialize(dbContext);
+
 app.Run();
