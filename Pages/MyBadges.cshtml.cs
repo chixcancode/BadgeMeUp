@@ -18,7 +18,11 @@ namespace BadgeMeUp.Pages
 
             using (var db = new BadgeContext())
             {
-                var user = db.Users?.Include(x => x.AssignedBadges).FirstOrDefault(x => x.Alias == alias);
+                var user = db.Users?
+                    .Include(x => x.AssignedBadges)
+                    .ThenInclude(x => x.Badge)
+                    .FirstOrDefault(x => x.Alias == alias);
+
                 if (user == null)
                 {
                     return NotFound();
