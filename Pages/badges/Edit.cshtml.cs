@@ -25,6 +25,8 @@ namespace BadgeMeUp.Pages.Badges
         public Badge Badge { get; set; }
         [BindProperty]
         public List<BadgeType> BadgeTypes { get; set; }
+
+        public int SelectedBadgeTypeId { get; set; }
  
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,6 +37,7 @@ namespace BadgeMeUp.Pages.Badges
 
             Badge = await _context.Badges.Include(x => x.BadgeType).FirstOrDefaultAsync(m => m.Id == id);
             BadgeTypes = await _context.BadgeTypes.ToListAsync();
+            SelectedBadgeTypeId = Badge.BadgeType.Id;
 
             if (Badge == null)
             {
