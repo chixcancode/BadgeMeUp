@@ -24,9 +24,8 @@ namespace BadgeMeUp.Pages.Badges
         [BindProperty]
         public Badge Badge { get; set; }
         [BindProperty]
-        //public List<SelectListItem> BadgeListItems { get; set; } = new List<SelectListItem>();
         public List<BadgeType> BadgeTypes { get; set; }
-
+ 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)
@@ -46,18 +45,16 @@ namespace BadgeMeUp.Pages.Badges
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int badgeTypeId)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            //The badge does NOT have the badge type set - how do I get this to work
-            // HELP!
-
+            var selectedBadgeType = _context.BadgeTypes.Single(x => x.Id == badgeTypeId);
+            Badge.BadgeType = selectedBadgeType;
             _context.Attach(Badge).State = EntityState.Modified;
-            
 
             try
             {
