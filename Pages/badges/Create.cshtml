@@ -1,0 +1,49 @@
+﻿@page
+@model BadgeMeUp.Pages.Badges.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Badge</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Badge.Name" class="control-label"></label>
+                <input asp-for="Badge.Name" class="form-control" />
+                <span asp-validation-for="Badge.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Badge.Criteria" class="control-label"></label>
+                <input asp-for="Badge.Criteria" class="form-control" />
+                <span asp-validation-for="Badge.Criteria" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Badge.Description" class="control-label"></label>
+                <input asp-for="Badge.Description" class="form-control" />
+                <span asp-validation-for="Badge.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Badge.BadgeType" class="control-label"></label>
+                <select asp-for="Badge.BadgeType" class="form-control"></select>
+                <span asp-validation-for="Badge.BadgeType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

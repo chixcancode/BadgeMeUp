@@ -2,6 +2,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<BadgeMeUp.BadgeContext, BadgeMeUp.BadgeContext>();
 
 var app = builder.Build();
 

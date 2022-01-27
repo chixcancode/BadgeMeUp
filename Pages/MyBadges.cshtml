@@ -5,15 +5,15 @@
 
 <h2>Badges for @Model.SelectedUser.Alias</h2>
 
-@foreach(var badge in Model.SelectedUser.AssignedBadges)
+@foreach(var assignedBadge in Model.SelectedUser.AssignedBadges)
 {
     <div class="card" style="width: 18rem;">
         <img src="~/sample-badge-image.jpg" class="card-img-top" style="height: 70px; width: 70px;" />
         <div class="card-body">
-            <h5 class="card-title">@badge.Name</h5>
-            <p>@badge.Description</p>
+            <h5 class="card-title">@assignedBadge.Badge.Name</h5>
+            <p>@assignedBadge.Badge.Description</p>
             <h6>To Earn:</h6>
-            <p>@Html.Raw(badge.Criteria)</p>
+            <p>@Html.Raw(assignedBadge.Badge.Criteria)</p>
         </div>
     </div>
 }

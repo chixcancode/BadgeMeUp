@@ -13,28 +13,43 @@ namespace BadgeMeUp
                 return; //db already populated
             }
 
+            var badgeTypes = new BadgeType[]
+            {
+                new BadgeType { Name = "Skill" },
+                new BadgeType { Name = "Customer Obsession" },
+                new BadgeType { Name = "Fun" }
+            };
+            context.BadgeTypes?.AddRange(badgeTypes);
+            context.SaveChanges();
+
+
             var badges = new Badge[]
-{
-                new Badge { Name = "Test Badge", Criteria = "Test Criteria",
-                    BadgeType = BadgeType.Fun, Description = "Test Description" },
-                new Badge { Name = "Test Badge 2", Criteria = "Test Criteria 2",
-                    BadgeType = BadgeType.SoftSkills, Description = "Test Description 2" }
-};
+            {
+                new Badge { Name = "Azure Functions", Criteria = "Test Criteria",
+                    BadgeType = badgeTypes[0], Description = "Description for Azure Functions" },
+                new Badge { Name = "Wall of Guitars", Criteria = "Must have a wall of guitars on the wall in view of your camera for Teams",
+                    BadgeType = badgeTypes[2], Description = "Has a wall of guitars as a real background" }
+            };
             context.Badges?.AddRange(badges);
             context.SaveChanges();
 
 
             var users = new User[]
             {
-                new User("jayoung"),
-                new User("lalovi")
+                new User { Alias = "jayoung" },
+                new User { Alias = "lalovi" }
             };
-            users[0].AssignedBadges = new List<Badge>(badges);
+            context.Users?.AddRange(users);
+            context.SaveChanges();
 
-            foreach(User u in users)
+
+            var assignedBadges = new AssignedBadge[]
             {
-                context.Users?.Add(u);
-            }
+                new AssignedBadge { FromUser = users[0], User = users[0], Badge = badges[0] },
+                new AssignedBadge { FromUser = users[0], User = users[0], Badge = badges[1] },
+                new AssignedBadge { FromUser = users[0], User = users[1], Badge = badges[0] }
+            };
+            context.AssignedBadges?.AddRange(assignedBadges);
             context.SaveChanges();
         }
     }

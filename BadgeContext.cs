@@ -7,6 +7,9 @@ namespace BadgeMeUp
     {
         public DbSet<User>? Users { get; set; }
         public DbSet<Badge>? Badges { get; set;}
+        public DbSet<BadgeType>? BadgeTypes { get; set; }
+        public DbSet<AssignedBadge>? AssignedBadges { get; set; }
+
         //public DbSet<AssignedBadge>? AssignedBadges { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -19,10 +22,21 @@ namespace BadgeMeUp
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .Entity<User>()
-                .HasMany(u => u.AssignedBadges)
-                .WithMany(b => b.Users)
-                .UsingEntity(j => j.ToTable("AssignedBadges"));
+                .Entity<AssignedBadge>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.AssignedBadges)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder
+                .Entity<AssignedBadge>()
+                .HasOne(x => x.Badge);
+
+            modelBuilder
+                .Entity<AssignedBadge>()
+                .HasOne(x => x.FromUser)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

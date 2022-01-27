@@ -1,0 +1,47 @@
+﻿@page
+@model BadgeMeUp.Pages.Badges.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Available Badges</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Badge[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Badge[0].Description)
+            </th>
+            <th>
+                Badge Type
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Badge) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BadgeType.Name)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
