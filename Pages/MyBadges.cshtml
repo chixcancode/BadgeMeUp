@@ -5,6 +5,10 @@
 
 <h2>Badges for @Model.SelectedUser.Alias</h2>
 
+<p>
+    Congratulations! These are the badges that you have created or have been awarded.
+</p>
+
 @foreach(var assignedBadge in Model.SelectedUser.AssignedBadges)
 {
     <div class="card" style="width: 18rem;">
@@ -14,6 +18,8 @@
             <p>@assignedBadge.Badge.Description</p>
             <h6>To Earn:</h6>
             <p>@Html.Raw(assignedBadge.Badge.Criteria)</p>
+            <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">Edit</a> |
+            <a asp-page="badges/Award" asp-route-id="@assignedBadge.Badge.Id">Award</a>
         </div>
     </div>
 }
