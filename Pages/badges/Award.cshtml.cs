@@ -27,7 +27,13 @@ namespace BadgeMeUp.Pages.badges
             }
 
             BadgeToAward = await _badgeDb.GetBadge(id.Value);
-            AllUsers = await _userDb.GetAllUsers();
+
+            if(BadgeToAward == null)
+            {
+                return NotFound();
+            }
+
+            AllUsers = _userDb.GetUsersWithoutBadge(BadgeToAward.Id);
 
             return Page();
         }

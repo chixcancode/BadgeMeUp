@@ -17,6 +17,21 @@ namespace BadgeMeUp.Db
             return await _context.Users.OrderBy(x => x.Alias).ToListAsync();
         }
 
+        public List<User> GetUsersWithoutBadge(int badgeId)
+        {
+            var q = (from u in _context.Users
+                     from ab in _context.AssignedBadges
+                     .Where(ab => u == ab.User && ab.Badge.Id == badgeId)
+                     .DefaultIfEmpty()
+                     select new
+                     {
+                         u,
+                         ab
+                     }).Where(x => x.ab == null).Select(x => x.u);
+
+            return q.ToList();
+        }
+
         public async Task<User> GetUserById(int id)
         {
             return await _context.Users.SingleAsync(x => x.Id == id);
