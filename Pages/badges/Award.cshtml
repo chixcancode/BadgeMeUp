@@ -3,5 +3,34 @@
 @{
 }
 
-<p>You can award badges to other users. Don't worry, you never lose a badge.</p>
-<p>You can award any badge that you have created or earned.</p>
+<p>You can award any of your badges (earned or created) to other users. Don't worry, you never lose a badge!</p>
+
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">@Model.BadgeToAward.Name</h5>
+    <p class="card-text">@Model.BadgeToAward.Description</p>
+  </div>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="@Model.BadgeToAward.Id" />
+
+    <div class="form-check" style="margin-top: 20px; margin-bottom: 20px;">
+      <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+      <label class="form-check-label" for="flexCheckDefault">
+        I have read the criteria required to award this badge, and the recipient meets the requirements.
+      </label>
+    </div>
+
+
+    <div class="input-group" style="width: 30rem;">
+        <select class="form-select" name="selectedUserId"
+            asp-items="@(new SelectList(Model.AllUsers, "Id", "Alias"))">
+          
+        </select>
+        <input type="submit" value="Award"
+            class="btn btn-primary" />
+    </div>
+
+</form>
