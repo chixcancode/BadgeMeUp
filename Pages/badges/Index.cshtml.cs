@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using BadgeMeUp;
 using BadgeMeUp.Models;
+using BadgeMeUp.Db;
 
 namespace BadgeMeUp.Pages.Badges
 {
     public class IndexModel : PageModel
     {
-        private readonly BadgeMeUp.BadgeContext _context;
+        private readonly BadgeContext _context;
 
-        public IndexModel(BadgeMeUp.BadgeContext context)
+        public IndexModel(BadgeContext context)
         {
             _context = context;
         }

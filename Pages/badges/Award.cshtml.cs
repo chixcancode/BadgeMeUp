@@ -1,3 +1,4 @@
+using BadgeMeUp.Db;
 using BadgeMeUp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,43 +7,48 @@ namespace BadgeMeUp.Pages.badges
 {
     public class AwardModel : PageModel
     {
-        BadgeContext _dbContext;
+        private readonly BadgeDb _badgeDb;
+        private readonly UserDb _userDb;
 
         public Badge? BadgeToAward { get; set; }
         public List<User>? AllUsers { get; set; }
 
-        public AwardModel(BadgeContext dbContext)
+        public AwardModel(BadgeDb badgeDb, UserDb userDb)
         {
-            _dbContext = dbContext;
+            _badgeDb = badgeDb;
+            _userDb = userDb;
         }
 
-        public IActionResult OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            BadgeToAward = _dbContext.Badges?.Single(x => x.Id == id);
-            AllUsers = _dbContext.Users?.OrderBy(x => x.Alias).ToList();
-            
+            BadgeToAward = await _badgeDb.GetBadge(id.Value);
+            AllUsers = await _userDb.GetAllUsers();
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int id, int selectedUserId)
+        public async Task<IActionResult> OnPostAsync(int? id, int selectedUserId)
         {
-            var newAssignment = new AssignedBadge();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            newAssignment.Badge = _dbContext.Badges?.Single(x => x.Id == id);
+            var currentUser = await _userDb.GetUserById(1);
+            var toUser = await _userDb.GetUserById(selectedUserId);
+            var badge = await _badgeDb.GetBadge(id.Value);
 
-            //Todo: use the current user
-            newAssignment.FromUser = _dbContext.Users.First();
-            newAssignment.User = _dbContext.Users.Single(x => x.Id == selectedUserId);
-            newAssignment.DateAssigned = DateTime.UtcNow;
+            if(badge == null)
+            {
+                return NotFound();
+            }
 
-            _dbContext.AssignedBadges.Add(newAssignment);
-            await _dbContext.SaveChangesAsync();
-
+            await _userDb.AssignBadgeToUser(currentUser, toUser, badge);
 
             return RedirectToPage("../MyBadges");
         }

@@ -1,14 +1,17 @@
 ﻿using BadgeMeUp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BadgeMeUp
+namespace BadgeMeUp.Db
 {
-    public class BadgeContext:DbContext
+    public class BadgeContext : DbContext
     {
-        public DbSet<User>? Users { get; set; }
-        public DbSet<Badge>? Badges { get; set;}
-        public DbSet<BadgeType>? BadgeTypes { get; set; }
-        public DbSet<AssignedBadge>? AssignedBadges { get; set; }
+        //Why Lambdas?
+        //https://docs.microsoft.com/en-us/ef/core/miscellaneous/nullable-reference-types#dbcontext-and-dbset
+
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Badge> Badges => Set<Badge>();
+        public DbSet<BadgeType> BadgeTypes => Set<BadgeType>();
+        public DbSet<AssignedBadge> AssignedBadges => Set<AssignedBadge>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

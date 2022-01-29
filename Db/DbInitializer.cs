@@ -1,6 +1,6 @@
 ﻿using BadgeMeUp.Models;
 
-namespace BadgeMeUp
+namespace BadgeMeUp.Db
 {
     public class DbInitializer
     {
@@ -8,7 +8,7 @@ namespace BadgeMeUp
         {
             context.Database.EnsureCreated();
 
-            if(context.Users != null && context.Users.Any())
+            if (context.Users != null && context.Users.Any())
             {
                 return; //db already populated
             }
