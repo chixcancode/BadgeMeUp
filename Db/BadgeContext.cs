@@ -38,6 +38,16 @@ namespace BadgeMeUp.Db
                 .WithMany()
                 .OnDelete(DeleteBehavior.NoAction);
 
+            //Delete assigned badges when a badge is deleted
+            modelBuilder
+                .Entity<Badge>()
+                .HasMany<AssignedBadge>()
+                .WithOne(x => x.Badge)
+                .OnDelete(DeleteBehavior.Cascade);
+                
+                
+
+
         }
     }
 }

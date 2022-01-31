@@ -37,7 +37,12 @@ namespace BadgeMeUp.Db
             var users = new User[]
             {
                 new User { Alias = "jayoung" },
-                new User { Alias = "lalovi" }
+                new User { Alias = "lalovi" },
+                new User { Alias = "jowaddel" },
+                new User { Alias = "landonpierce" },
+                new User { Alias = "nyporter" },
+                new User { Alias = "sopacifi" },
+                new User { Alias = "donhigh" },
             };
             context.Users?.AddRange(users);
             context.SaveChanges();
@@ -45,9 +50,9 @@ namespace BadgeMeUp.Db
 
             var assignedBadges = new AssignedBadge[]
             {
-                new AssignedBadge { FromUser = users[0], User = users[0], Badge = badges[0] },
-                new AssignedBadge { FromUser = users[0], User = users[0], Badge = badges[1] },
-                new AssignedBadge { FromUser = users[0], User = users[1], Badge = badges[0] }
+                new AssignedBadge(badges[0], users[0], users[0]),
+                new AssignedBadge(badges[1], users[0], users[0]),
+                new AssignedBadge(badges[0], users[0], users[1])
             };
             context.AssignedBadges?.AddRange(assignedBadges);
             context.SaveChanges();

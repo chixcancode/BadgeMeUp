@@ -39,13 +39,7 @@ namespace BadgeMeUp.Db
 
         public async Task AssignBadgeToUser(User fromUser, User toUser, Badge badge)
         {
-            var newAssignment = new AssignedBadge
-            {
-                Badge = badge,
-                FromUser = fromUser,
-                User = toUser,
-                DateAssigned = DateTime.UtcNow
-            };
+            var newAssignment = new AssignedBadge(badge, fromUser, toUser);
 
             _context.AssignedBadges.Add(newAssignment);
             await _context.SaveChangesAsync();

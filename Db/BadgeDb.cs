@@ -17,6 +17,13 @@ namespace BadgeMeUp.Db
             return await _db.Badges.Include(x => x.BadgeType).SingleOrDefaultAsync(m => m.Id == badgeId);
         }
 
+        public async Task SaveBadge(Badge badge, AssignedBadge initialAssignment)
+        {
+            _db.Badges.Add(badge);
+            _db.AssignedBadges.Add(initialAssignment);
+            await _db.SaveChangesAsync();
+        }
+
         public async Task<List<BadgeType>> GetAllBadgeTypes()
         {
             return await _db.BadgeTypes.ToListAsync();
@@ -31,6 +38,17 @@ namespace BadgeMeUp.Db
         {
             _db.Attach(badge).State = EntityState.Modified;
             await _db.SaveChangesAsync();
+        }
+
+        public void DeleteBadge(Badge badge)
+        {
+            var assignmentsToDelete = _db.AssignedBadges.Where(x => x.Badge == badge);
+            foreach(var assignment in assignmentsToDelete)
+            {
+                _db.Remove(assignment);
+            }
+            _db.Remove(badge);
+            _db.SaveChanges();
         }
     }
 }

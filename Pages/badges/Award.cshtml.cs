@@ -2,6 +2,7 @@ using BadgeMeUp.Db;
 using BadgeMeUp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace BadgeMeUp.Pages.badges
 {
@@ -12,6 +13,8 @@ namespace BadgeMeUp.Pages.badges
 
         public Badge? BadgeToAward { get; set; }
         public List<User>? AllUsers { get; set; }
+
+        public int SelectedUserId { get; set; }
 
         public AwardModel(BadgeDb badgeDb, UserDb userDb)
         {

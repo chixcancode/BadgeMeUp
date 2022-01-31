@@ -14,10 +14,12 @@ namespace BadgeMeUp.Pages.Badges
     public class DeleteModel : PageModel
     {
         private readonly BadgeContext _context;
+        private readonly BadgeDb _badgeDb;
 
-        public DeleteModel(BadgeContext context)
+        public DeleteModel(BadgeContext context, BadgeDb badgeDb)
         {
             _context = context;
+            _badgeDb = badgeDb;
         }
 
         [BindProperty]
@@ -50,8 +52,7 @@ namespace BadgeMeUp.Pages.Badges
 
             if (Badge != null)
             {
-                _context.Badges.Remove(Badge);
-                await _context.SaveChangesAsync();
+                _badgeDb.DeleteBadge(Badge);
             }
 
             return RedirectToPage("./Index");

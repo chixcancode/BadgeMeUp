@@ -1,11 +1,6 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using BadgeMeUp.Models;
 using BadgeMeUp.Db;
 
@@ -13,31 +8,44 @@ namespace BadgeMeUp.Pages.Badges
 {
     public class CreateModel : PageModel
     {
-        private readonly BadgeContext _context;
-
-        public CreateModel(BadgeContext context)
-        {
-            _context = context;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
+        private readonly BadgeDb _badgeDb;
+        private readonly UserDb _userDb;
 
         [BindProperty]
         public Badge Badge { get; set; }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public List<BadgeType>? BadgeTypes { get; set; }
+
+        public CreateModel(BadgeDb badgeDb, UserDb userDb)
+        {
+            _badgeDb = badgeDb;
+            _userDb = userDb;
+
+            Badge = new Badge();
+        }
+
+        public async Task<IActionResult> OnGet()
+        {
+            BadgeTypes = await _badgeDb.GetAllBadgeTypes();
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int badgeTypeId)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Badges.Add(Badge);
-            await _context.SaveChangesAsync();
+            //todo: replace with current user
+            var currentUser = await _userDb.GetUserById(1);
+
+            Badge.BadgeType = await _badgeDb.GetBadgeType(badgeTypeId);
+
+            var assignment = new AssignedBadge(Badge, currentUser, currentUser);
+
+            await _badgeDb.SaveBadge(Badge, assignment);
 
             return RedirectToPage("./Index");
         }
