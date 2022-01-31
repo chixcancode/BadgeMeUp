@@ -47,7 +47,7 @@ namespace BadgeMeUp.Pages.Badges
 
             await _badgeDb.SaveBadge(Badge, assignment);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/badges/Edit", new { id = Badge.Id });
         }
     }
 }
