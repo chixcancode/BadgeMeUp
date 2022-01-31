@@ -39,5 +39,10 @@ namespace BadgeMeUp.Pages
                 return Page();
             }
         }
+
+        public static string EncodeMultilineString(string unencoded)
+        {
+            return unencoded.ReplaceLineEndings("<br />");
+        }
     }
 }

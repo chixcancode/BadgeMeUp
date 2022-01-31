@@ -3,7 +3,7 @@
 @{
 }
 
-<h2>Badges for @Model.SelectedUser.Alias</h2>
+<h2>@Model.SelectedUser.Alias Badges</h2>
 
 <p>
     Congratulations! These are the badges that you have created or have been awarded.
@@ -13,14 +13,15 @@
     <div class="row">
 @foreach(var assignedBadge in Model.SelectedUser.AssignedBadges)
 {   <div class="col">
-        <div class="card" style="width: 252px; margin-bottom: 20px;">
+        <div class="card" style="width: 252px; margin-bottom: 10px;">
+            <h5 class="card-title" style="margin-left: 5px; height: 45px;">@assignedBadge.Badge.Name</h5>
             <img src="~/BadgeImage?id=@assignedBadge.Badge.Id" class="card-img-top" style="height: 100px; width: 250px;" />
         
             <div class="card-body">
-                <h5 class="card-title">@assignedBadge.Badge.Name</h5>
-                <p>@assignedBadge.Badge.Description</p>
-                <h6>To Earn:</h6>
-                <p>@Html.Raw(assignedBadge.Badge.Criteria)</p>
+                <p style="font-size: 10pt;">
+                    @Html.Raw(MyBadgesModel.EncodeMultilineString(assignedBadge.Badge.Description))
+                </p>
+                
                 <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">Edit</a> |
                 <a asp-page="badges/Award" asp-route-id="@assignedBadge.Badge.Id">Award</a>
             </div>
