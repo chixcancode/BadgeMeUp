@@ -22,7 +22,7 @@ namespace BadgeMeUp.Pages.Badges
         public List<BadgeType>? BadgeTypes { get; set; }
 
         [BindProperty]
-        public IFormFile badgeImage { get; set; }
+        public IFormFile? badgeImage { get; set; }
 
         public int SelectedBadgeTypeId { get; set; }
  
@@ -44,11 +44,6 @@ namespace BadgeMeUp.Pages.Badges
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int badgeTypeId)
-        {
-            return await OnPostAsync(badgeTypeId, null);
-        }
-
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync(int badgeTypeId, IFormFile? badgeImage)
@@ -58,18 +53,24 @@ namespace BadgeMeUp.Pages.Badges
                 return Page();
             }
 
+            //Grab a copy so that we don't have to update every field
+            var updateBadge = await _badgeDb.GetBadge(Badge.Id);
+            updateBadge.Name = Badge.Name;
+            updateBadge.Description = Badge.Description;
+            updateBadge.Criteria = Badge.Criteria;
+
             if(badgeImage != null)
             {
-                Badge.BannerImageFileName = badgeImage.FileName;
+                updateBadge.BannerImageFileName = badgeImage.FileName;
                 var ms = new MemoryStream();
                 await badgeImage.CopyToAsync(ms);
-                Badge.BannerImageBytes = ms.ToArray();
-                Badge.BannerImageContentType = badgeImage.ContentType;
+                updateBadge.BannerImageBytes = ms.ToArray();
+                updateBadge.BannerImageContentType = badgeImage.ContentType;
             }
 
             var selectedBadgeType = await _badgeDb.GetBadgeType(badgeTypeId);
-            Badge.BadgeType = selectedBadgeType;
-            await _badgeDb.UpdateBadge(Badge);
+            updateBadge.BadgeType = selectedBadgeType;
+            await _badgeDb.UpdateBadge(updateBadge);
 
             return RedirectToPage("./Index");
         }
