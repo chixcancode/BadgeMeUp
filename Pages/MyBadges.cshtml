@@ -3,7 +3,7 @@
 @{
 }
 
-<h2>@Model.SelectedUser.Alias Badges</h2>
+<h2>Your Badges</h2>
 
 <p>
     Congratulations! These are the badges that you have created or have been awarded.
@@ -11,7 +11,7 @@
 
 <div class="container-fluid">
     <div class="row">
-@foreach(var assignedBadge in Model.SelectedUser.AssignedBadges)
+@foreach(var assignedBadge in Model.AssignedBadges)
 {   <div class="col">
         <div class="card" style="width: 252px; margin-bottom: 10px;">
             <h5 class="card-title" style="margin-left: 5px; height: 45px;">@assignedBadge.Badge.Name</h5>

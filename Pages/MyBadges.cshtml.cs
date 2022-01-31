@@ -8,38 +8,18 @@ namespace BadgeMeUp.Pages
 {
     public class MyBadgesModel : PageModel
     {
-        public User? SelectedUser = null;
+        public List<AssignedBadge>? AssignedBadges { get; set; }
 
-        private readonly BadgeContext _badgeContext;
+        private readonly BadgeDb _badgeDb;
 
-        public MyBadgesModel(BadgeContext badgeContext)
+        public MyBadgesModel(BadgeDb badgeDb)
         {
-            _badgeContext = badgeContext;
+            _badgeDb = badgeDb;
         }
 
-        public IActionResult OnGet(string? alias)
+        public async Task<IActionResult> OnGet()
         {
-            if(alias == null)
-            {
-                alias = "jayoung";
-            }
-            
-            var user = _badgeContext.Users?
-                .Include(x => x.AssignedBadges)
-                .ThenInclude(x => x.Badge)
-                .FirstOrDefault(x => x.Alias == alias);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            Console.WriteLine(user.AssignedBadges.Count());
-
-            if (user != null)
-            {
-                this.SelectedUser = user;
-            }
+            AssignedBadges = await _badgeDb.GetAssignedBadges(1);
 
             return Page();
         }
