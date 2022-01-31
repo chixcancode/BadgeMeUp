@@ -13,9 +13,16 @@ namespace BadgeMeUp.Db
         public DbSet<BadgeType> BadgeTypes => Set<BadgeType>();
         public DbSet<AssignedBadge> AssignedBadges => Set<AssignedBadge>();
 
+        private readonly IConfiguration _configuration;
+
+        public BadgeContext(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=badges1;Trusted_Connection=True;MultipleActiveResultSets=true";
+            var connectionString = _configuration.GetConnectionString("badgeDb");
 
             optionsBuilder.UseSqlServer(connectionString);
         }

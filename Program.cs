@@ -25,7 +25,13 @@ app.UseRouting();
 
 app.MapRazorPages();
 
-var dbContext = new BadgeMeUp.Db.BadgeContext();
+IConfiguration config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
+
+
+var dbContext = new BadgeMeUp.Db.BadgeContext(config);
 BadgeMeUp.Db.DbInitializer.Initialize(dbContext);
 
 app.Run();
