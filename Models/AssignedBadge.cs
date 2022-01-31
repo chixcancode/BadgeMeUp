@@ -8,6 +8,8 @@
         public User? User { get; private set; }
         public DateTime DateAssigned { get; set; } = DateTime.UtcNow;
 
+        public string AwardComment { get; set; } = "";
+
         public AssignedBadge()
         {
         }

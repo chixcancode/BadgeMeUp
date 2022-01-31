@@ -16,6 +16,11 @@ namespace BadgeMeUp.Pages.badges
 
         public int SelectedUserId { get; set; }
 
+        [BindProperty]
+        public string Comments { get; set; }
+
+        public bool ChangeOwner { get; set; } = false;
+
         public AwardModel(BadgeDb badgeDb, UserDb userDb)
         {
             _badgeDb = badgeDb;
@@ -41,7 +46,7 @@ namespace BadgeMeUp.Pages.badges
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, int selectedUserId)
+        public async Task<IActionResult> OnPostAsync(int? id, int selectedUserId, bool changeOwner)
         {
             if (id == null)
             {
@@ -57,7 +62,12 @@ namespace BadgeMeUp.Pages.badges
                 return NotFound();
             }
 
-            await _userDb.AssignBadgeToUser(currentUser, toUser, badge);
+            await _userDb.AssignBadgeToUser(currentUser, toUser, badge, Comments);
+
+            if (changeOwner)
+            {
+                await _userDb.RemoveBadgeFromUser(currentUser, badge);
+            }
 
             return RedirectToPage("../MyBadges");
         }

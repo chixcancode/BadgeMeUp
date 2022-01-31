@@ -30,6 +30,20 @@
     </div>
 
     <div class="form-group">
+        <label asp-for="Comments" class="control-label">
+            (optional) Add a message for the recipient:
+        </label><br />
+        <textarea asp-for="Comments" style="width: 300px; height: 100px;"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ChangeOwner" class="control-label">
+            (optional) TRANSFER this badge instead of copying it
+        </label>
+        <input type="checkbox" asp-for="ChangeOwner" name="changeOwner" />
+    </div>
+
+    <div class="form-group">
         <div class="alert alert-primary" role="alert">
             Please ensure that the user you are awarding this badge to has meet the required criteria.
         </div>

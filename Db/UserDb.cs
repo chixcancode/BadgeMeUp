@@ -37,12 +37,28 @@ namespace BadgeMeUp.Db
             return await _context.Users.SingleAsync(x => x.Id == id);
         }
 
-        public async Task AssignBadgeToUser(User fromUser, User toUser, Badge badge)
+        public async Task AssignBadgeToUser(User fromUser, User toUser, Badge badge, string? comment)
         {
             var newAssignment = new AssignedBadge(badge, fromUser, toUser);
+            if (comment != null)
+            {
+                newAssignment.AwardComment = comment;
+            }
 
             _context.AssignedBadges.Add(newAssignment);
             await _context.SaveChangesAsync();
         }
+        
+        public async Task RemoveBadgeFromUser(User user, Badge badge)
+        {
+            var assignment = _context.AssignedBadges.SingleOrDefault(x => x.Badge == badge && x.User == user);
+
+            if(assignment != null)
+            {
+                _context.Remove(assignment);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }
