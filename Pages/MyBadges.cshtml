@@ -9,17 +9,24 @@
     Congratulations! These are the badges that you have created or have been awarded.
 </p>
 
+<div class="container-fluid">
+    <div class="row">
 @foreach(var assignedBadge in Model.SelectedUser.AssignedBadges)
-{
-    <div class="card" style="width: 18rem;">
-        <img src="~/sample-badge-image.jpg" class="card-img-top" style="height: 70px; width: 70px;" />
-        <div class="card-body">
-            <h5 class="card-title">@assignedBadge.Badge.Name</h5>
-            <p>@assignedBadge.Badge.Description</p>
-            <h6>To Earn:</h6>
-            <p>@Html.Raw(assignedBadge.Badge.Criteria)</p>
-            <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">Edit</a> |
-            <a asp-page="badges/Award" asp-route-id="@assignedBadge.Badge.Id">Award</a>
+{   <div class="col">
+        <div class="card" style="width: 252px; margin-bottom: 20px;">
+            <img src="~/BadgeImage?id=@assignedBadge.Badge.Id" class="card-img-top" style="height: 100px; width: 250px;" />
+        
+            <div class="card-body">
+                <h5 class="card-title">@assignedBadge.Badge.Name</h5>
+                <p>@assignedBadge.Badge.Description</p>
+                <h6>To Earn:</h6>
+                <p>@Html.Raw(assignedBadge.Badge.Criteria)</p>
+                <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">Edit</a> |
+                <a asp-page="badges/Award" asp-route-id="@assignedBadge.Badge.Id">Award</a>
+            </div>
         </div>
     </div>
 }
+    </div>
+    
+</div>

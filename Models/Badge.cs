@@ -10,5 +10,9 @@
 
         //nullable avoids a model binding error in mvc
         public BadgeType? BadgeType { get; set; }
+
+        public string? BannerImageFileName { get; set; }
+        public byte[]? BannerImageBytes { get; set; }
+        public string? BannerImageContentType { get; set; }
     }
 }
