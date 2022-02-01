@@ -35,7 +35,7 @@
                     asp-items="@(new SelectList(Model.BadgeTypes, "Id", "Name", Model.SelectedBadgeTypeId))"></select>
             </div>
             <div class="form-group">
-                <label asp-for="badgeImage" class="control-label">Upload new banner image:</label>
+                <label asp-for="badgeImage" class="control-label">Upload new banner image (100px x 250px or equal ratio):</label>
                 <input type="file" asp-for="badgeImage" accept="image/*" />
                 <span asp-validation-for="badgeImage" class="text-danger"></span>
             </div>
