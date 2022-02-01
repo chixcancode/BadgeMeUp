@@ -2,24 +2,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.Identity.Web;
 
 namespace BadgeMeUp.Pages
 {
     public class WhoAmIModel : PageModel
     {
         public string Name  { get; set; }  
-        public string Claims { get; set; }
+        public string PrincipalId { get; set; }
 
         public void OnGet()
         {
-            if(ClaimsPrincipal.Current != null)
-            {
-                Name = ClaimsPrincipal.Current.Identity.Name;
-
-                string claims = "";
-                ClaimsPrincipal.Current.Claims.ToList().ForEach(x => claims += x.Value);
-                Claims = claims;
-            }
+           Name = HttpContext.Request.Headers["X-MS-CLIENT-PRINCIPAL-NAME"];
+           PrincipalId = HttpContext.Request.Headers["X-MS-CLIENT-PRINCIPAL-ID"];
         }
     }
 }
