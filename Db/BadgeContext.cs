@@ -1,5 +1,6 @@
 ﻿using BadgeMeUp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace BadgeMeUp.Db
 {
@@ -24,7 +25,10 @@ namespace BadgeMeUp.Db
         {
             var connectionString = _configuration.GetConnectionString("badgeDb");
 
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(connectionString, sqlOptions =>
+            {
+                sqlOptions.EnableRetryOnFailure();
+            });
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
