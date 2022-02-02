@@ -45,6 +45,8 @@ namespace BadgeMeUp.Pages.Badges
             var currentUser = await _userDb.GetUser(_currentUserInfo.GetPrincipalId());
 
             Badge.BadgeType = await _badgeDb.GetBadgeType(badgeTypeId);
+            Badge.Description = "";
+            Badge.Criteria = "";
 
             var assignment = new AssignedBadge(Badge, currentUser, currentUser);
 
