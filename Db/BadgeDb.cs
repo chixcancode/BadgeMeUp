@@ -22,6 +22,15 @@ namespace BadgeMeUp.Db
             return await _db.AssignedBadges.Include(x => x.Badge).Where(x => x.User == user).ToListAsync();
         }
 
+        public async Task<List<AssignedBadge>> GetAssignmentHistory(Badge badge)
+        {
+            return await _db.AssignedBadges
+                .Where(x => x.Badge == badge)
+                .Include(x => x.User)
+                .Include(x => x.FromUser)
+                .ToListAsync();
+        }
+
         public async Task SaveBadge(Badge badge, AssignedBadge initialAssignment)
         {
             _db.Badges.Add(badge);

@@ -22,8 +22,8 @@
                     @Html.Raw(MyBadgesModel.EncodeMultilineString(assignedBadge.Badge.Description))
                 </p>
                 
-                <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">Edit</a> |
-                <a asp-page="badges/Award" asp-route-id="@assignedBadge.Badge.Id">Award</a>
+                <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">Details</a> |
+                <a asp-page="badges/Award" asp-route-id="@assignedBadge.Badge.Id">Award to Someone</a>
             </div>
         </div>
     </div>

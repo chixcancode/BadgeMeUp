@@ -2,15 +2,12 @@
 @model BadgeMeUp.Pages.Badges.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "View / Edit";
 }
 
-<!--<h1>Edit</h1>-->
-
-<h4>Badge Editor</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col">
+        <h2>Details</h2>
         <form enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Badge.Id" />
@@ -40,14 +37,30 @@
                 <span asp-validation-for="badgeImage" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-page="./Index">Back to List</a>
+    <div class="col">
+        <h2>History</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>From</td>
+                    <td>To</td>
+                    <td>Comment</td>
+                </tr>
+            </thead>
+            @foreach(var assignment in @Model.BadgeHistory)
+            {
+            <tr>
+                <td>@assignment.FromUser.PrincipalName</td>
+                <td>@assignment.User.PrincipalName</td>
+                <td>@assignment.AwardComment</td>
+            </tr>
+            }
+        </table>
+    </div>
 </div>
 
 @section Scripts {

@@ -25,6 +25,8 @@ namespace BadgeMeUp.Pages.Badges
         public IFormFile? badgeImage { get; set; }
 
         public int SelectedBadgeTypeId { get; set; }
+
+        public List<AssignedBadge> BadgeHistory { get; set; }
  
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -33,15 +35,25 @@ namespace BadgeMeUp.Pages.Badges
                 return NotFound();
             }
 
-            Badge = await _badgeDb.GetBadge(id.Value);
-            BadgeTypes = await _badgeDb.GetAllBadgeTypes();
-            SelectedBadgeTypeId = Badge.BadgeType.Id;
+            await Populate(id.Value);
 
             if (Badge == null)
             {
                 return NotFound();
             }
             return Page();
+        }
+
+        private async Task Populate(int id)
+        {
+            Badge = await _badgeDb.GetBadge(id);
+            BadgeTypes = await _badgeDb.GetAllBadgeTypes();
+            SelectedBadgeTypeId = Badge.BadgeType.Id;
+
+            if(Badge != null)
+            {
+                BadgeHistory = await _badgeDb.GetAssignmentHistory(Badge);
+            }
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
