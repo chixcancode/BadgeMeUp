@@ -16,12 +16,16 @@ namespace BadgeMeUp.Pages.Badges
 
         public List<BadgeType>? BadgeTypes { get; set; }
 
-        public CreateModel(BadgeDb badgeDb, UserDb userDb)
+        private readonly ICurrentUserInfo _currentUserInfo;
+
+        public CreateModel(BadgeDb badgeDb, UserDb userDb, ICurrentUserInfo currentUserInfo)
         {
             _badgeDb = badgeDb;
             _userDb = userDb;
 
             Badge = new Badge();
+
+            _currentUserInfo = currentUserInfo;
         }
 
         public async Task<IActionResult> OnGet()
@@ -39,7 +43,7 @@ namespace BadgeMeUp.Pages.Badges
             }
 
             //todo: replace with current user
-            var currentUser = await _userDb.GetUserById(1);
+            var currentUser = await _userDb.GetUserByPrincipalGuid(_currentUserInfo.GetPrincipalId());
 
             Badge.BadgeType = await _badgeDb.GetBadgeType(badgeTypeId);
 

@@ -3,6 +3,7 @@ using BadgeMeUp.Models;
 using BadgeMeUp.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BadgeMeUp.Pages
 {

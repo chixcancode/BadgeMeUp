@@ -6,6 +6,12 @@ builder.Services.AddScoped<BadgeMeUp.Db.BadgeContext, BadgeMeUp.Db.BadgeContext>
 builder.Services.AddScoped<BadgeMeUp.Db.BadgeDb, BadgeMeUp.Db.BadgeDb>();
 builder.Services.AddScoped<BadgeMeUp.Db.UserDb, BadgeMeUp.Db.UserDb>();
 
+#if DEBUG == true
+    builder.Services.AddScoped<BadgeMeUp.ICurrentUserInfo, BadgeMeUp.MockCurrentUser>();
+#else
+    builder.Services.AddScoped<BadgeMeUp.ICurrentUserInfo, BadgeMeUp.AppServiceCurrentUser>();
+#endif
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

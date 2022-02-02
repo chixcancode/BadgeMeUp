@@ -14,7 +14,7 @@ namespace BadgeMeUp.Db
 
         public async Task<List<User>> GetAllUsers()
         {
-            return await _context.Users.OrderBy(x => x.Alias).ToListAsync();
+            return await _context.Users.OrderBy(x => x.PrincipalName).ToListAsync();
         }
 
         public List<User> GetUsersWithoutBadge(int badgeId)
@@ -32,9 +32,9 @@ namespace BadgeMeUp.Db
             return q.ToList();
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetUserByPrincipalGuid(Guid principalGuid)
         {
-            return await _context.Users.SingleAsync(x => x.Id == id);
+            return await _context.Users.SingleAsync(x => x.PrincipalId == principalGuid);
         }
 
         public async Task AssignBadgeToUser(User fromUser, User toUser, Badge badge, string? comment)

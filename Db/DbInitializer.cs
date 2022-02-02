@@ -36,13 +36,9 @@ namespace BadgeMeUp.Db
 
             var users = new User[]
             {
-                new User { Alias = "jayoung" },
-                new User { Alias = "lalovi" },
-                new User { Alias = "jowaddel" },
-                new User { Alias = "landonpierce" },
-                new User { Alias = "nyporter" },
-                new User { Alias = "sopacifi" },
-                new User { Alias = "donhigh" },
+                new User { PrincipalName = "jason@microsoft.com", PrincipalId = Guid.Parse("d4609816-ed54-4942-9fae-2b72c63b73ea") },
+                new User { PrincipalName = "labrina@microsoft.com", PrincipalId = Guid.NewGuid() },
+                new User { PrincipalName = "brandon@microsoft.com", PrincipalId = Guid.NewGuid() },
             };
             context.Users?.AddRange(users);
             context.SaveChanges();

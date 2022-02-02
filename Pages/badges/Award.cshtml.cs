@@ -21,10 +21,13 @@ namespace BadgeMeUp.Pages.badges
 
         public bool ChangeOwner { get; set; } = false;
 
-        public AwardModel(BadgeDb badgeDb, UserDb userDb)
+        private readonly ICurrentUserInfo _currentUserInfo;
+
+        public AwardModel(BadgeDb badgeDb, UserDb userDb, ICurrentUserInfo currentUserInfo)
         {
             _badgeDb = badgeDb;
             _userDb = userDb;
+            _currentUserInfo = currentUserInfo;
         }
 
         public async Task<IActionResult> OnGet(int? id)
@@ -46,15 +49,15 @@ namespace BadgeMeUp.Pages.badges
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id, int selectedUserId, bool changeOwner)
+        public async Task<IActionResult> OnPostAsync(int? id, Guid selectedUserId, bool changeOwner)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var currentUser = await _userDb.GetUserById(1);
-            var toUser = await _userDb.GetUserById(selectedUserId);
+            var currentUser = await _userDb.GetUserByPrincipalGuid(_currentUserInfo.GetPrincipalId());
+            var toUser = await _userDb.GetUserByPrincipalGuid(selectedUserId);
             var badge = await _badgeDb.GetBadge(id.Value);
 
             if(badge == null)
