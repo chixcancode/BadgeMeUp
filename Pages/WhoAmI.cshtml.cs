@@ -7,14 +7,19 @@ namespace BadgeMeUp.Pages
     {
         public string? Name  { get; set; }  
         public Guid PrincipalId { get; set; }
+        public IHeaderDictionary Headers { get; set; }
 
         private readonly ICurrentUserInfo _userInfo;
         private readonly UserDb _userDb;
 
-        public WhoAmIModel(ICurrentUserInfo userInfo, UserDb userDb)
+        private readonly IHttpContextAccessor _contextAccessor;
+
+        public WhoAmIModel(ICurrentUserInfo userInfo, UserDb userDb, IHttpContextAccessor context)
         {
             _userInfo = userInfo;
             _userDb = userDb;
+
+            _contextAccessor = context;
         }
 
         public async Task OnGet()
@@ -27,6 +32,8 @@ namespace BadgeMeUp.Pages
                 //Call this to create the user if it doesn't already exist
                 await _userDb.GetOrCreateUser(PrincipalId, Name);
             }
+
+            Headers = _contextAccessor.HttpContext.Request.Headers;
         }
     }
 }
