@@ -17,7 +17,9 @@ namespace BadgeMeUp.Db
             {
                 new BadgeType { Name = "Skill" },
                 new BadgeType { Name = "Customer Obsession" },
-                new BadgeType { Name = "Fun" }
+                new BadgeType { Name = "Fun" },
+                new BadgeType { Name = "Event" },
+                new BadgeType { Name = "Kudos" },
             };
             context.BadgeTypes?.AddRange(badgeTypes);
             context.SaveChanges();
