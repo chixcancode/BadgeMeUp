@@ -56,8 +56,8 @@ namespace BadgeMeUp.Pages.badges
                 return NotFound();
             }
 
-            var currentUser = await _userDb.GetUserByPrincipalGuid(_currentUserInfo.GetPrincipalId());
-            var toUser = await _userDb.GetUserByPrincipalGuid(selectedUserId);
+            var currentUser = await _userDb.GetOrCreateUser(_currentUserInfo.GetPrincipalId(), _currentUserInfo.GetPrincipalName());
+            var toUser = await _userDb.GetUser(selectedUserId);
             var badge = await _badgeDb.GetBadge(id.Value);
 
             if(badge == null)

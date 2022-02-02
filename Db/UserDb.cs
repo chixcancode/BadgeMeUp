@@ -32,9 +32,25 @@ namespace BadgeMeUp.Db
             return q.ToList();
         }
 
-        public async Task<User> GetUserByPrincipalGuid(Guid principalGuid)
+        public async Task<User> GetOrCreateUser(Guid principalGuid, string principalName)
         {
-            return await _context.Users.SingleAsync(x => x.PrincipalId == principalGuid);
+            var user = await GetUser(principalGuid);
+
+            if(user == null)
+            {
+                user = new User();
+                user.PrincipalId = principalGuid;
+                user.PrincipalName = principalName;
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+            }
+
+            return user;
+        }
+
+        public async Task<User?> GetUser(Guid principalGuid)
+        {
+            return await _context.Users.SingleOrDefaultAsync(x => x.PrincipalId == principalGuid);
         }
 
         public async Task AssignBadgeToUser(User fromUser, User toUser, Badge badge, string? comment)

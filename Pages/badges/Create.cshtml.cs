@@ -42,8 +42,7 @@ namespace BadgeMeUp.Pages.Badges
                 return Page();
             }
 
-            //todo: replace with current user
-            var currentUser = await _userDb.GetUserByPrincipalGuid(_currentUserInfo.GetPrincipalId());
+            var currentUser = await _userDb.GetUser(_currentUserInfo.GetPrincipalId());
 
             Badge.BadgeType = await _badgeDb.GetBadgeType(badgeTypeId);
 
