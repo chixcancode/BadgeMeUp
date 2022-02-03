@@ -30,23 +30,45 @@ namespace BadgeMeUp.Pages.badges
             _currentUserInfo = currentUserInfo;
         }
 
-        public async Task<IActionResult> OnGet(int? id)
+        public async Task<IActionResult> OnGet(int? id, int? badgeId, Guid? from, string? awardMessage)
         {
-            if (id == null)
+            if (id != null)
+            {
+                BadgeToAward = await _badgeDb.GetBadge(id.Value);
+
+                if (BadgeToAward == null)
+                {
+                    return NotFound();
+                }
+
+                AllUsers = _userDb.GetUsersWithoutBadge(BadgeToAward.Id);
+
+                return Page();
+            }
+            else if(badgeId != null && from != null)
+            {
+                return await AutoHandler(badgeId.Value, from.Value, awardMessage);
+            }
+            else
             {
                 return NotFound();
             }
+        }
 
-            BadgeToAward = await _badgeDb.GetBadge(id.Value);
+        //This is a special URL that can be sent to another user (in the system or not) and
+        //it will create the assignment when the recipient accepts the award.
+        private async Task<IActionResult> AutoHandler(int badgeId, Guid from, string? awardMessage)
+        {
+            var badge = await _badgeDb.GetBadge(badgeId);
+            var fromUser = await _userDb.GetUser(from);
+            var toUser = await _userDb.GetOrCreateUser(_currentUserInfo.GetPrincipalId(), _currentUserInfo.GetPrincipalName());
 
-            if(BadgeToAward == null)
+            if(fromUser != toUser)
             {
-                return NotFound();
+                await _userDb.AssignBadgeToUser(fromUser, toUser, badge, awardMessage ?? "");
             }
 
-            AllUsers = _userDb.GetUsersWithoutBadge(BadgeToAward.Id);
-
-            return Page();
+            return RedirectToPage("../MyBadges");
         }
 
         public async Task<IActionResult> OnPostAsync(int? id, Guid selectedUserId, bool changeOwner)
