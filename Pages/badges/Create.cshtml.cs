@@ -49,6 +49,7 @@ namespace BadgeMeUp.Pages.Badges
             Badge.Criteria = "";
 
             var assignment = new AssignedBadge(Badge, currentUser, currentUser);
+            assignment.AwardComment = "Created";
 
             await _badgeDb.SaveBadge(Badge, assignment);
 
