@@ -90,9 +90,7 @@ namespace BadgeMeUp.Pages.badges
             }
 
             await _userDb.AssignBadgeToUser(currentUser, toUser, badge, Comments);
-            var body = BadgeAwardTemplate.GetEmailBody(badge, currentUser);
-
-            var email = BadgeAwardTemplate.GetEmailQueue(toUser.PrincipalName, badge, currentUser);
+            var email = BadgeAwardTemplate.GetEmailQueue(toUser.PrincipalName, badge, currentUser, Comments);
 
             await _emailQueueDb.QueueEmailToSend(email);
 
