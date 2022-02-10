@@ -13,6 +13,7 @@ namespace BadgeMeUp.Db
         public DbSet<Badge> Badges => Set<Badge>();
         public DbSet<BadgeType> BadgeTypes => Set<BadgeType>();
         public DbSet<AssignedBadge> AssignedBadges => Set<AssignedBadge>();
+        public DbSet<EmailQueue> EmailQueue => Set<EmailQueue>();
 
         private readonly IConfiguration _configuration;
 

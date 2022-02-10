@@ -5,6 +5,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<BadgeMeUp.Db.BadgeContext, BadgeMeUp.Db.BadgeContext>();
 builder.Services.AddScoped<BadgeMeUp.Db.BadgeDb, BadgeMeUp.Db.BadgeDb>();
 builder.Services.AddScoped<BadgeMeUp.Db.UserDb, BadgeMeUp.Db.UserDb>();
+builder.Services.AddScoped<BadgeMeUp.Db.EmailQueueDb, BadgeMeUp.Db.EmailQueueDb>();
 builder.Services.AddHttpContextAccessor();
 
 

@@ -10,6 +10,7 @@ namespace BadgeMeUp.Pages.badges
     {
         private readonly BadgeDb _badgeDb;
         private readonly UserDb _userDb;
+        private readonly EmailQueueDb _emailQueueDb;
 
         public Badge? BadgeToAward { get; set; }
         public List<User>? AllUsers { get; set; }
@@ -23,10 +24,11 @@ namespace BadgeMeUp.Pages.badges
 
         private readonly ICurrentUserInfo _currentUserInfo;
 
-        public AwardModel(BadgeDb badgeDb, UserDb userDb, ICurrentUserInfo currentUserInfo)
+        public AwardModel(BadgeDb badgeDb, UserDb userDb, EmailQueueDb emailQueueDb, ICurrentUserInfo currentUserInfo)
         {
             _badgeDb = badgeDb;
             _userDb = userDb;
+            _emailQueueDb = emailQueueDb;
             _currentUserInfo = currentUserInfo;
         }
 
@@ -82,12 +84,17 @@ namespace BadgeMeUp.Pages.badges
             var toUser = await _userDb.GetUser(selectedUserId);
             var badge = await _badgeDb.GetBadge(id.Value);
 
-            if(badge == null)
+            if (badge == null)
             {
                 return NotFound();
             }
 
             await _userDb.AssignBadgeToUser(currentUser, toUser, badge, Comments);
+            var body = BadgeAwardTemplate.GetEmailBody(badge, currentUser);
+
+            var email = BadgeAwardTemplate.GetEmailQueue(toUser.PrincipalName, badge, currentUser);
+
+            await _emailQueueDb.QueueEmailToSend(email);
 
             if (changeOwner)
             {
