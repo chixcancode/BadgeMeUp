@@ -27,7 +27,7 @@ namespace BadgeMeUp
         {
             var email = new EmailQueue
             {
-                ToEmail = "jayoung@microsoft.com",//toEmail,
+                ToEmail = toEmail,
                 Subject = string.Format("You just earned a new badge - {0}!", badge.Name),
                 Body = GetEmailBody(badge, from)
             };
