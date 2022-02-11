@@ -67,7 +67,11 @@ namespace BadgeMeUp.Pages.badges
 
             if(fromUser != toUser)
             {
-                await _userDb.AssignBadgeToUser(fromUser, toUser, badge, awardMessage ?? "");
+                var hasBadge = await _userDb.HasBadge(toUser, badge);
+                if (!hasBadge)
+                {
+                    await _userDb.AssignBadgeToUser(fromUser, toUser, badge, awardMessage ?? "");
+                }
             }
 
             return RedirectToPage("../MyBadges");

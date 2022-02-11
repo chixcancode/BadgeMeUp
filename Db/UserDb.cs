@@ -76,5 +76,12 @@ namespace BadgeMeUp.Db
             }
         }
 
+        public async Task<bool> HasBadge(User user, Badge badge)
+        {
+            var found = await _context.AssignedBadges.SingleOrDefaultAsync(x => x.User == user && x.Badge == badge);
+            return (found != null);
+        }
+
+
     }
 }
