@@ -53,10 +53,20 @@
             </thead>
             @foreach(var assignment in @Model.BadgeHistory)
             {
-            <tr>
-                <td>@assignment.FromUser.PrincipalName</td>
-                <td>@assignment.User.PrincipalName</td>
-                <td>@assignment.AwardComment</td>
+                <tr>
+                    @if (assignment != null)
+                    {
+                        if (assignment.FromUser == null)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@assignment.FromUser.PrincipalName</td>
+                        }
+                        <td>@assignment.User.PrincipalName</td>
+                        <td>@assignment.AwardComment</td>
+                    }
             </tr>
             }
         </table>
