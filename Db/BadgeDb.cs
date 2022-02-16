@@ -22,6 +22,11 @@ namespace BadgeMeUp.Db
             return await _db.AssignedBadges.Include(x => x.Badge).Where(x => x.User == user).ToListAsync();
         }
 
+        public async Task<List<AssignedBadge>> GetAssignedBadges(Guid userId)
+        {
+            return await _db.AssignedBadges.Include(x => x.Badge).Where(x => x.User.PrincipalId == userId).ToListAsync();
+        }
+
         public async Task<List<AssignedBadge>> GetAssignmentHistory(Badge badge)
         {
             return await _db.AssignedBadges

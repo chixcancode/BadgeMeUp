@@ -84,7 +84,7 @@ namespace BadgeMeUp.Pages.Badges
             updateBadge.BadgeType = selectedBadgeType;
             await _badgeDb.UpdateBadge(updateBadge);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./All");
         }
     }
 }

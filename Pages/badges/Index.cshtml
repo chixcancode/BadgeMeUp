@@ -1,47 +1,41 @@
 ﻿@page
 @model BadgeMeUp.Pages.Badges.IndexModel
-
 @{
-    ViewData["Title"] = "Index";
 }
 
-<h1>All Available Badges</h1>
+@if (@Model.OtherUser == null)
+{
+    <h2>Your Badges</h2>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Badge[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Badge[0].Description)
-            </th>
-            <th>
-                Badge Type
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Badge) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BadgeType.Name)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+    <p>
+        Congratulations! These are the badges that you have created or have been awarded.
+        You can copy <a asp-page="Index" asp-route-id="@Model.UserId">this URL</a> to share yours!
+    </p>
 }
-    </tbody>
-</table>
+else
+{
+     <h2>Badges belonging to @Model.OtherUser</h2>
+}
+
+<div class="container-fluid">
+    <div class="row">
+@foreach(var assignedBadge in Model.AssignedBadges)
+{   <div class="col">
+        <div class="card" style="width: 252px; margin-bottom: 10px;">
+            <h5 class="card-title" style="margin-left: 5px; height: 45px;">@assignedBadge.Badge.Name</h5>
+            <img src="~/BadgeImage?id=@assignedBadge.Badge.Id" class="card-img-top" style="height: 100px; width: 250px;" />
+        
+            <div class="card-body">
+                <p style="font-size: 10pt;">
+                    @Html.Raw(Badges.IndexModel.EncodeMultilineString(assignedBadge.Badge.Description))
+                </p>
+                
+                <a asp-page="Edit" asp-route-id="@assignedBadge.Badge.Id">Details</a> |
+                <a asp-page="Share" asp-route-id="@assignedBadge.Badge.Id">Share</a>
+            </div>
+        </div>
+    </div>
+}
+    </div>
+    
+</div>

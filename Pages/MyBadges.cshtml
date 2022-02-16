@@ -2,32 +2,3 @@
 @model BadgeMeUp.Pages.MyBadgesModel
 @{
 }
-
-<h2>Your Badges</h2>
-
-<p>
-    Congratulations! These are the badges that you have created or have been awarded.
-</p>
-
-<div class="container-fluid">
-    <div class="row">
-@foreach(var assignedBadge in Model.AssignedBadges)
-{   <div class="col">
-        <div class="card" style="width: 252px; margin-bottom: 10px;">
-            <h5 class="card-title" style="margin-left: 5px; height: 45px;">@assignedBadge.Badge.Name</h5>
-            <img src="~/BadgeImage?id=@assignedBadge.Badge.Id" class="card-img-top" style="height: 100px; width: 250px;" />
-        
-            <div class="card-body">
-                <p style="font-size: 10pt;">
-                    @Html.Raw(MyBadgesModel.EncodeMultilineString(assignedBadge.Badge.Description))
-                </p>
-                
-                <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">Details</a> |
-                <a asp-page="badges/Share" asp-route-id="@assignedBadge.Badge.Id">Share</a>
-            </div>
-        </div>
-    </div>
-}
-    </div>
-    
-</div>
