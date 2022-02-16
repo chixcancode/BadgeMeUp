@@ -1,0 +1,36 @@
+﻿@page
+@model BadgeMeUp.Pages.Badges.ShareModel
+@{
+    ViewData["Title"] = "Share a Badge";
+}
+<div class="form-group">
+    <label>Badge Details:</label> 
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+        <h5 class="card-title">@Model.BadgeToAward.Name</h5>
+        <p class="card-text">@Model.BadgeToAward.Description</p>
+        </div>
+    </div>
+</div>
+<div style="margin-top: 20px">
+    <label for="ShareUrl">Share this URL to award this badge to anyone that opens it:</label> 
+    <input type="text" class="form-control" asp-for="ShareUrl" id="copy-input" readonly />
+    <button class="btn btn-primary" type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
+</div>
+
+<script type="text/javascript">
+    function copyToClipboard() {
+        var input = document.getElementById("copy-input");
+        input.select();
+        input.setSelectionRange(0, input.value.length + 1);
+        navigator.clipboard.writeText(input.value).then(
+            () => {
+                console.log("copy to clipboard succeeded");
+            },
+            (err) => {
+                console.error("Clipboard write failed", err);
+                alert("There was a problem copying the URL. Please manually copy the URL.")
+            }
+        );
+    }
+</script>
