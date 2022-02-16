@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 
-namespace BadgeMeUp.Pages.badges
+namespace BadgeMeUp.Pages.Badges
 {
     public class AwardModel : PageModel
     {
@@ -104,6 +104,12 @@ namespace BadgeMeUp.Pages.badges
             }
 
             return RedirectToPage("../MyBadges");
+        }
+
+        public static string CreateShareUrl(int badgeId, Guid userId)
+        {
+            return string.Format("https://badgemeup.azurewebsites.net/badges/award?badgeId={0}&from={1}",
+                badgeId, userId.ToString());
         }
     }
 }
