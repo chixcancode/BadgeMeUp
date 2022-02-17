@@ -5,12 +5,7 @@
 }
 <div class="form-group">
     <label>Badge Details:</label> 
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
-        <h5 class="card-title">@Model.BadgeToAward.Name</h5>
-        <p class="card-text">@Model.BadgeToAward.Description</p>
-        </div>
-    </div>
+    <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(Model.BadgeToAward, false)" />
 </div>
 <div class="mb-3">
   <label for="awardTextArea" class="form-label">Optional Comments:</label>

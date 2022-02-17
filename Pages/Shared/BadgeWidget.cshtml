@@ -1,0 +1,18 @@
+﻿@model BadgeMeUp.Pages.Shared.BadgeWidget
+
+        <div class="card" style="width: 252px; margin-bottom: 10px;">
+            <h5 class="card-title" style="margin-left: 5px; height: 45px;">@Model.Badge.Name</h5>
+            <img src="~/BadgeImage?id=@Model.Badge.Id" class="card-img-top" style="height: 100px; width: 250px;" />
+        
+            <div class="card-body">
+                <p style="font-size: 10pt;">
+                    @Html.Raw(Badges.IndexModel.EncodeMultilineString(@Model.Badge.Description))
+                </p>
+                
+                @if (Model.ShowLinks)
+                {
+                    <a asp-page="Edit" asp-route-id="@Model.Badge.Id">Details</a> <text>|</text>
+                    <a asp-page="Share" asp-route-id="@Model.Badge.Id">Share</a>
+                }
+            </div>
+        </div>
