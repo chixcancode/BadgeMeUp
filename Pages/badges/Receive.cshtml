@@ -6,9 +6,12 @@
 <form method="post">
     <div class="mb-3">
         <p>
-            Congratulations! You have been awarded the badge <b>@Model.Badge.Name</b>
-            from @Model.FromUser.PrincipalName
+            Congratulations! @Model.FromUser.PrincipalName sent you a badge. All you need
+            to do is accept it.
         </p>
+        
+        <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(Model.Badge, false)" />
+        
         @if(Model.AwardMessage != null)
         {
             <b>Message from @Model.FromUser.PrincipalName:</b>
