@@ -70,7 +70,7 @@ namespace BadgeMeUp.Pages.Badges
             var updateBadge = await _badgeDb.GetBadge(Badge.Id);
             updateBadge.Name = Badge.Name;
             updateBadge.Description = Badge.Description;
-            updateBadge.Criteria = Badge.Criteria;
+            updateBadge.Criteria = Badge.Criteria ?? "";
 
             if(badgeImage != null)
             {
