@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using BadgeMeUp.Models;
 using BadgeMeUp.Db;
-using System.Drawing;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace BadgeMeUp.Pages.Badges
 {
@@ -76,8 +77,10 @@ namespace BadgeMeUp.Pages.Badges
                 updateBadge.BannerImageFileName = badgeImage.FileName;
                 var ms = new MemoryStream();
                 await badgeImage.CopyToAsync(ms);
-                updateBadge.BannerImageBytes = ms.ToArray();
-                updateBadge.BannerImageContentType = badgeImage.ContentType;
+
+                var resized = ResizeImage(ms);
+                updateBadge.BannerImageBytes = resized.ToArray();
+                updateBadge.BannerImageContentType = "image/jpeg";
             }
 
             var selectedBadgeType = await _badgeDb.GetBadgeType(badgeTypeId);
@@ -85,6 +88,22 @@ namespace BadgeMeUp.Pages.Badges
             await _badgeDb.UpdateBadge(updateBadge);
 
             return RedirectToPage("./All");
+        }
+
+        private MemoryStream ResizeImage(MemoryStream ms)
+        {
+            ms.Seek(0, SeekOrigin.Begin);
+            var image = Image.Load(ms);
+
+            var resizeOptions = new ResizeOptions();
+            resizeOptions.Size = new Size(250, 100);
+
+            image.Mutate(x => x.Resize(resizeOptions));
+
+            var outStream = new MemoryStream();
+            image.Save(outStream, new JpegEncoder());
+
+            return outStream;
         }
     }
 }
