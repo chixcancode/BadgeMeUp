@@ -30,7 +30,7 @@ namespace BadgeMeUp.Pages.Badges
             BadgeToAward = await _badgeDb.GetBadge(id.Value);
             var me = _userInfo.GetPrincipalId();
 
-            ShareUrl = AwardModel.CreateShareUrl(id.Value, me);
+            ShareUrl = ReceiveModel.CreateShareUrl(id.Value, me, null);
 
             return Page();
         }
