@@ -9,6 +9,14 @@
             Congratulations! You have been awarded the badge <b>@Model.Badge.Name</b>
             from @Model.FromUser.PrincipalName
         </p>
+        @if(Model.AwardMessage != null)
+        {
+            <b>Message from @Model.FromUser.PrincipalName:</b>
+            <p>
+
+                @Model.AwardMessage
+            </p>
+        }
     </div>
     <button type="submit" class="btn-primary btn">Accept Badge</button>
 </form>

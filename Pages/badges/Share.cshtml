@@ -12,13 +12,27 @@
         </div>
     </div>
 </div>
+<div class="mb-3">
+  <label for="awardTextArea" class="form-label">Optional Comments:</label>
+  <textarea class="form-control" id="awardTextArea" rows="3" oninput="awardTextChange()"></textarea>
+</div>
 <div style="margin-top: 20px">
     <label for="ShareUrl">Share this URL to award this badge to anyone that opens it:</label> 
     <input type="text" class="form-control" asp-for="ShareUrl" id="copy-input" readonly />
     <button class="btn btn-primary" type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
 </div>
 
+<input id="ShareUrlRaw" type="text" asp-for="ShareUrl" hidden />
+
 <script type="text/javascript">
+    function awardTextChange() {
+        var rawUrl = document.getElementById("ShareUrlRaw");
+        var textArea = document.getElementById("awardTextArea");
+        var copyInput = document.getElementById("copy-input");
+
+        copyInput.value = rawUrl.value + escape(textArea.value);
+    }
+
     function copyToClipboard() {
         var input = document.getElementById("copy-input");
         input.select();

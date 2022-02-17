@@ -13,7 +13,7 @@ namespace BadgeMeUp.Pages.Badges
 
         public Badge? Badge { get; set; }
         public User? FromUser { get; set; }
-
+        public string? AwardMessage { get; set; }
 
         public ReceiveModel(BadgeDb badgeDb, UserDb userDb, ICurrentUserInfo userLookup)
         {
@@ -22,7 +22,7 @@ namespace BadgeMeUp.Pages.Badges
             _currentUserInfo = userLookup;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id, Guid fromUserId)
+        public async Task<IActionResult> OnGetAsync(int? id, Guid fromUserId, string? awardMessage)
         {
             if(id == null)
             {
@@ -36,6 +36,8 @@ namespace BadgeMeUp.Pages.Badges
             {
                 return NotFound();
             }
+
+            AwardMessage = awardMessage;
 
             return Page();
         }
