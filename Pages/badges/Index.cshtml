@@ -15,13 +15,28 @@ else
      <h2>Badges belonging to @Model.OtherUser</h2>
 }
 
-<div class="container">
-    <div>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+<script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
+<div class="grid">
+    <div class="row" id="masonry">
         @foreach(var assignedBadge in Model.AssignedBadges)
         {
-            <div class="col" style="float: left; margin-right: 15px; margin-bottom: 15px;">
+            <div class="col-sm-5 col-lg-3 mb-2">
                     <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(assignedBadge.Badge, true)" />
             </div>
         }
     </div>
 </div>
+
+<script type="text/javascript">
+    var grid = document.getElementById('masonry');
+
+    if(grid) {
+        imagesLoaded(grid, () => {
+            console.log("Images loaded");
+            var msnry = new Masonry(grid);
+            msnry.layout();
+        });
+    }
+</script>

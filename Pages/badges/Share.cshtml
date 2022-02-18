@@ -4,8 +4,11 @@
     ViewData["Title"] = "Share a Badge";
 }
 <div class="form-group">
-    <label>Badge Details:</label> 
-    <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(Model.BadgeToAward, false)" />
+    <label>Badge Details:</label>
+
+    <div style="width: 14rem;">
+        <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(Model.BadgeToAward, false)" />
+    </div>
 </div>
 <div class="mb-3">
   <label for="awardTextArea" class="form-label">Optional Comments:</label>
