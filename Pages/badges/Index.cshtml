@@ -1,6 +1,17 @@
 ﻿@page
 @model BadgeMeUp.Pages.Badges.IndexModel
 
+@{
+    if (Model.OtherUser == null)
+    {
+        ViewData["Title"] = "My Badges";
+    }
+    else
+    {
+        ViewData["Title"] = "Badges for " + Model.OtherUser;
+    }
+}
+
 @if (@Model.OtherUser == null)
 {
     <h2>Your Badges</h2>
