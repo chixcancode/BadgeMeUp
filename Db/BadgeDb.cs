@@ -69,5 +69,16 @@ namespace BadgeMeUp.Db
             _db.Remove(badge);
             _db.SaveChanges();
         }
+
+        public async Task<List<AssignedBadge>> GetFullBadgeStream(int limit)
+        {
+            return await _db.AssignedBadges
+                .OrderByDescending(x => x.DateAssigned)
+                .Take(limit)
+                .Include(x => x.User)
+                .Include(x => x.FromUser)
+                .Include(x => x.Badge)
+                .ToListAsync();
+        }
     }
 }

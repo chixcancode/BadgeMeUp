@@ -1,4 +1,5 @@
 ﻿@page
+@using Humanizer
 @model IndexModel
 @{
     ViewData["Title"] = "Welcome";
@@ -22,5 +23,11 @@
             Badges can also represent customer achievements such as "Engineer Shoutout at Build".
         </li>
     </ul>
+
+    <h2>Latest Activity</h2>
+    @foreach(var assignedBadge in Model.BadgeAssignments)
+    {
+        <div>@assignedBadge.FromUser.PrincipalName assigned @assignedBadge.Badge.Name to @assignedBadge.User.PrincipalName @assignedBadge.DateAssigned.Humanize()</div>
+    }
 
 </div>
