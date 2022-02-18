@@ -27,7 +27,7 @@
     <h2>Latest Activity</h2>
     @foreach(var assignedBadge in Model.BadgeAssignments)
     {
-        <div>@assignedBadge.FromUser.PrincipalName assigned @assignedBadge.Badge.Name to @assignedBadge.User.PrincipalName @assignedBadge.DateAssigned.Humanize()</div>
+        <div><b>@assignedBadge.User.PrincipalName</b> received the <b>@assignedBadge.Badge.Name</b> badge @assignedBadge.DateAssigned.Humanize()</div>
     }
 
 </div>
