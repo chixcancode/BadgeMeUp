@@ -9,6 +9,6 @@
     <h2>Latest Activity</h2>
     @foreach(var assignedBadge in Model.BadgeAssignments)
     {
-        <div><b>@assignedBadge.User.PrincipalName</b> received the <b>@assignedBadge.Badge.Name</b> badge @assignedBadge.DateAssigned.Humanize()</div>
+        <div><b><a asp-page="badges/Index" asp-route-id="@assignedBadge.User.PrincipalId">@assignedBadge.User.PrincipalName</a></b> received the <b>@assignedBadge.Badge.Name</b> badge @assignedBadge.DateAssigned.Humanize()</div>
     }
 </div>
