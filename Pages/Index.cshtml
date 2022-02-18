@@ -6,28 +6,9 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome to BadgeMeUp</h1>
-    <p>
-        BadgeMeUp is a system for managing "badges", which are similar to Xbox achievements. The difference is, anyone
-        can create a badge, and a badge can be assigned to anyone. When you have a badge, you have the ability to copy
-        the badge and pass it on to the next person.
-    </p>
-    <ul>
-        <li>
-            Badges can be fun, like "Wall of Guitars" or "Designer Glasses".
-        </li>
-        <li>
-            Badges can be skill-based, like "Azure Functions" or "Certified Kubernetes Administrator".
-        </li>
-        <li>
-            Badges can also represent customer achievements such as "Engineer Shoutout at Build".
-        </li>
-    </ul>
-
     <h2>Latest Activity</h2>
     @foreach(var assignedBadge in Model.BadgeAssignments)
     {
         <div><b>@assignedBadge.User.PrincipalName</b> received the <b>@assignedBadge.Badge.Name</b> badge @assignedBadge.DateAssigned.Humanize()</div>
     }
-
 </div>
