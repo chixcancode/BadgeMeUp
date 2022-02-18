@@ -15,13 +15,13 @@ else
      <h2>Badges belonging to @Model.OtherUser</h2>
 }
 
-<div class="container-fluid">
-    <div class="row">
-@foreach(var assignedBadge in Model.AssignedBadges)
-{   <div class="col">
-        <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(assignedBadge.Badge, true)" />
+<div class="container">
+    <div>
+        @foreach(var assignedBadge in Model.AssignedBadges)
+        {
+            <div class="col" style="float: left; margin-right: 15px; margin-bottom: 15px;">
+                    <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(assignedBadge.Badge, true)" />
+            </div>
+        }
     </div>
-}
-    </div>
-    
 </div>
