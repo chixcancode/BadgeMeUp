@@ -13,17 +13,19 @@
             <input type="hidden" asp-for="Badge.Id" />
             <div class="form-group">
                 <label asp-for="Badge.Name" class="control-label"></label>
-                <input asp-for="Badge.Name" class="form-control" />
+                <input asp-for="Badge.Name" class="form-control" placeholder="Day of Learning 2050" />
                 <span asp-validation-for="Badge.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Badge.Description" class="control-label"></label>
-                <textarea asp-for="Badge.Description" class="form-control"></textarea>
+                <textarea asp-for="Badge.Description" class="form-control" placeholder="Participated in the day of learning"></textarea>
                 <span asp-validation-for="Badge.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Badge.Criteria" class="control-label">Optional Criteria</label>
-                <textarea asp-for="Badge.Criteria" class="form-control"></textarea>
+                <textarea asp-for="Badge.Criteria" class="form-control"
+                    placeholder="1. Successful Delivery of 2 Engagements
+2. Reverse Shadowed"></textarea>
                 <span asp-validation-for="Badge.Criteria" class="text-danger"></span>
             </div>            
             <div class="form-group">
