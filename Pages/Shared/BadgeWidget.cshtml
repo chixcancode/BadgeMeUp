@@ -1,7 +1,7 @@
 ﻿@model BadgeMeUp.Pages.Shared.BadgeWidget
 
         <div class="card">
-            <img src="~/BadgeImage?id=@Model.Badge.Id" class="card-img-top" />
+            <img src="@Model.Badge.BadgeStorageUrl" class="card-img-top" />
         
             <div class="card-body">
                 <h5 class="card-title">@Model.Badge.Name</h5>

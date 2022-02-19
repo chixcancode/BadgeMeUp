@@ -80,5 +80,10 @@ namespace BadgeMeUp.Db
                 .Include(x => x.Badge)
                 .ToListAsync();
         }
+
+        public async Task<List<Badge>> GetAllBadges()
+        {
+            return await _db.Badges.Include(x => x.BadgeType).ToListAsync();
+        }
     }
 }

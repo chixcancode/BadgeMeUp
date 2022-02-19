@@ -11,10 +11,12 @@ namespace BadgeMeUp.Pages.Badges
     public class EditModel : PageModel
     {
         private readonly BadgeDb _badgeDb;
+        private readonly BadgeImageDb _badgeImageDb;
 
-        public EditModel(BadgeDb badgeDb)
+        public EditModel(BadgeDb badgeDb, BadgeImageDb badgeImageDb)
         {
             _badgeDb = badgeDb;
+            _badgeImageDb = badgeImageDb;
         }
 
         [BindProperty]
@@ -79,8 +81,9 @@ namespace BadgeMeUp.Pages.Badges
                 await badgeImage.CopyToAsync(ms);
 
                 var resized = ResizeImage(ms);
-                updateBadge.BannerImageBytes = resized.ToArray();
-                updateBadge.BannerImageContentType = "image/jpeg";
+
+                updateBadge.BadgeStorageUrl = _badgeImageDb.GetBadgeImageUrl(Badge.Id).AbsoluteUri;
+                await _badgeImageDb.SaveBadgeImage(Badge.Id, resized, "image/jpeg");
             }
 
             var selectedBadgeType = await _badgeDb.GetBadgeType(badgeTypeId);
