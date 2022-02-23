@@ -52,6 +52,7 @@
                     <td>From</td>
                     <td>To</td>
                     <td>Comment</td>
+                    <td>Actions</td>
                 </tr>
             </thead>
             @foreach(var assignment in @Model.BadgeHistory)
@@ -69,6 +70,7 @@
                         }
                         <td><a asp-page="Index" asp-route-id="@assignment.User.PrincipalId">@assignment.User.PrincipalName</a></td>
                         <td>@assignment.AwardComment</td>
+                        <td><a asp-page="./DeleteShare" asp-route-id="@assignment.Id" class="btn btn-danger">Delete</a></td>
                     }
             </tr>
             }

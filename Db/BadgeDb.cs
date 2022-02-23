@@ -27,6 +27,25 @@ namespace BadgeMeUp.Db
             return await _db.AssignedBadges.Include(x => x.Badge).Where(x => x.User.PrincipalId == userId).ToListAsync();
         }
 
+        public async Task DeleteAssignedBadge(int badgeId)
+        {
+            var assignment = await this.GetAssignedBadge(badgeId);
+            if (assignment != null)
+            {
+                _db.Remove(assignment);
+                await _db.SaveChangesAsync();
+            }
+        }
+
+        public async Task<AssignedBadge?> GetAssignedBadge(int badgeId)
+        {
+            return await _db.AssignedBadges
+                .Include(x => x.Badge)
+                .Include(x => x.FromUser)
+                .Include(x => x.User)
+                .SingleOrDefaultAsync(x => x.Id == badgeId);
+        }
+
         public async Task<List<AssignedBadge>> GetAssignmentHistory(Badge badge)
         {
             return await _db.AssignedBadges
