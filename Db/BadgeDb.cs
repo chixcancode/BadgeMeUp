@@ -105,7 +105,7 @@ namespace BadgeMeUp.Db
             return await _db.Badges.Include(x => x.BadgeType).ToListAsync();
         }
 
-        public IEnumerable<(User? User, int BadgeCount)> GetTopBadgeHolders()
+        public IEnumerable<(int place, User? User, int BadgeCount)> GetTopBadgeHolders()
         {
             var query =
             _db.AssignedBadges
@@ -120,10 +120,11 @@ namespace BadgeMeUp.Db
                 .Take(10)
                 .OrderByDescending(x => x.BadgeCount);
 
-            return query.Select(x => (x.User, x.BadgeCount));
+            //zip adds in the place number
+            return query.Zip(Enumerable.Range(1, 10000), (o, i) => (i, o.User, o.BadgeCount));
         }
 
-        public IEnumerable<(User? User, int BadgeCount)> GetTopBadgeGivers()
+        public IEnumerable<(int place, User? User, int BadgeCount)> GetTopBadgeGivers()
         {
             var query =
             _db.AssignedBadges
@@ -138,7 +139,8 @@ namespace BadgeMeUp.Db
                 .Take(10)
                 .OrderByDescending(x => x.BadgeCount);
 
-            return query.Select(x => (x.User, x.BadgeCount));
+            //zip adds in the place number
+            return query.Zip(Enumerable.Range(1, 10000), (o, i) => (i, o.User, o.BadgeCount));
         }
     }
 }

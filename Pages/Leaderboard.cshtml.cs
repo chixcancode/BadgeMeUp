@@ -8,8 +8,8 @@ namespace BadgeMeUp.Pages
     {
         private readonly BadgeDb _badgeDb;
 
-        public List<(User User, int BadgeCount)> TopUsers;
-        public List<(User User, int BadgeCount)> TopGivers;
+        public List<(int Place, User User, int BadgeCount)> TopUsers;
+        public List<(int Place, User User, int BadgeCount)> TopGivers;
 
         public LeaderboardModel(BadgeDb badgeDb)
         {

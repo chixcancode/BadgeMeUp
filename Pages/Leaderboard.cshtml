@@ -9,6 +9,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <td>Place</td>
                     <td>User</td>
                     <td>Badges</td>
                 </tr>
@@ -17,8 +18,9 @@
                 @foreach(var record in @Model.TopUsers)
                 {
                     <tr>
-                        <td><a asp-page="badges/Index" asp-route-id="@record.Item1.PrincipalId">@record.Item1.PrincipalName</a></td>
-                        <td>@record.Item2</td>
+                        <td>#@record.Item1</td>
+                        <td><a asp-page="badges/Index" asp-route-id="@record.Item2.PrincipalId">@record.Item2.PrincipalName</a></td>
+                        <td>@record.Item3</td>
                     </tr>
                 }
             </tbody>
@@ -30,6 +32,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <td>Place</td>
                     <td>User</td>
                     <td>Badges</td>
                 </tr>
@@ -38,8 +41,9 @@
                 @foreach(var record in @Model.TopGivers)
                 {
                     <tr>
-                        <td><a asp-page="badges/Index" asp-route-id="@record.Item1.PrincipalId">@record.Item1.PrincipalName</a></td>
-                        <td>@record.Item2</td>
+                        <td>#@record.Item1</td>
+                        <td><a asp-page="badges/Index" asp-route-id="@record.Item2.PrincipalId">@record.Item2.PrincipalName</a></td>
+                        <td>@record.Item3</td>
                     </tr>
                 }
             </tbody>
