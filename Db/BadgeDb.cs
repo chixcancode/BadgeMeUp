@@ -121,5 +121,22 @@ namespace BadgeMeUp.Db
 
             return query.Select(x => (x.User, x.BadgeCount));
         }
+
+        public IEnumerable<(User? User, int BadgeCount)> GetTopBadgeGivers()
+        {
+            var query =
+            _db.AssignedBadges
+                .Include(x => x.User)
+                .GroupBy(x => x.FromUserId)
+                .Select(group => new
+                {
+                    User = group.First().FromUser,
+                    BadgeCount = group.Count()
+                })
+                .ToList()
+                .OrderByDescending(x => x.BadgeCount);
+
+            return query.Select(x => (x.User, x.BadgeCount));
+        }
     }
 }

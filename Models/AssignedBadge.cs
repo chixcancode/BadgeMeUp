@@ -11,6 +11,8 @@ namespace BadgeMeUp.Models
 
         [ForeignKey("User")]
         public int UserId { get; }
+        [ForeignKey("FromUser")]
+        public int FromUserId { get; }
         public DateTime DateAssigned { get; set; } = DateTime.UtcNow;
 
         public string AwardComment { get; set; } = "";

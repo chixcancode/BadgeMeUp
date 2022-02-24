@@ -9,6 +9,7 @@ namespace BadgeMeUp.Pages
         private readonly BadgeDb _badgeDb;
 
         public List<(User User, int BadgeCount)> TopUsers;
+        public List<(User User, int BadgeCount)> TopGivers;
 
         public LeaderboardModel(BadgeDb badgeDb)
         {
@@ -18,6 +19,7 @@ namespace BadgeMeUp.Pages
         public void OnGet()
         {
             TopUsers = _badgeDb.GetTopBadgeHolders().ToList();
+            TopGivers = _badgeDb.GetTopBadgeGivers().ToList();
         }
     }
 }
