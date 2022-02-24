@@ -117,6 +117,7 @@ namespace BadgeMeUp.Db
                     BadgeCount = group.Count()
                 })
                 .ToList()
+                .Take(10)
                 .OrderByDescending(x => x.BadgeCount);
 
             return query.Select(x => (x.User, x.BadgeCount));
@@ -134,6 +135,7 @@ namespace BadgeMeUp.Db
                     BadgeCount = group.Count()
                 })
                 .ToList()
+                .Take(10)
                 .OrderByDescending(x => x.BadgeCount);
 
             return query.Select(x => (x.User, x.BadgeCount));
