@@ -10,7 +10,7 @@ namespace BadgeMeUp.Db
 
         private const string ContainerName = "badge-images";
         private const string ImageNameFormat = "badge-{0}.jpg";
-        
+
         public BadgeImageDb(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -20,6 +20,7 @@ namespace BadgeMeUp.Db
         {
             var connectionString = _configuration.GetConnectionString("badgeImageStorage");
             var container = new BlobContainerClient(connectionString, ContainerName);
+            container.CreateIfNotExists();
 
             return container;
         }
@@ -39,15 +40,20 @@ namespace BadgeMeUp.Db
             await blobClient.UploadAsync(imageStream, blobHttpHeaders);
         }
 
-        public Uri GetBadgeImageUrl(int badgeId)
+        public string GetBadgeImageUrl(int badgeId)
         {
             var start = DateTime.UtcNow;
             var container = GetContainerClient();
             var blobClient = container.GetBlobClient(GetBadgeFileName(badgeId));
-            var sas = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.UtcNow.AddYears(100)));
+            var sas = blobClient.GenerateSasUri(BlobSasPermissions.Read, new DateTimeOffset(DateTime.UtcNow.AddYears(100))).AbsoluteUri;
             var end = DateTime.UtcNow;
 
             Console.WriteLine((end - start).ToString());
+
+#if DEBUG == true
+            // This is to handle the docker-compose case where the SAS URI is local to the docker network, not the actual host
+            sas = sas.Replace("badgemeup-storage", "localhost");
+#endif
 
             return sas;
         }

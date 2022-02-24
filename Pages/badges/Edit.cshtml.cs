@@ -82,7 +82,7 @@ namespace BadgeMeUp.Pages.Badges
 
                 var resized = ResizeImage(ms);
 
-                updateBadge.BadgeStorageUrl = _badgeImageDb.GetBadgeImageUrl(Badge.Id).AbsoluteUri;
+                updateBadge.BadgeStorageUrl = _badgeImageDb.GetBadgeImageUrl(Badge.Id);
                 await _badgeImageDb.SaveBadgeImage(Badge.Id, resized, "image/jpeg");
             }
 
