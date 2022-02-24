@@ -1,0 +1,23 @@
+﻿@page
+@model BadgeMeUp.Pages.LeaderboardModel
+@{
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>User</td>
+            <td>Badges</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var record in @Model.TopUsers)
+        {
+            <tr>
+                <td><a asp-page="badges/Index" asp-route-id="@record.Item1.PrincipalId">@record.Item1.PrincipalName</a></td>
+                <td>@record.Item2</td>
+            </tr>
+        }
+    </tbody>
+</table>

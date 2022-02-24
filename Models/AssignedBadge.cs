@@ -1,4 +1,6 @@
-﻿namespace BadgeMeUp.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BadgeMeUp.Models
 {
     public class AssignedBadge
     {
@@ -6,6 +8,9 @@
         public Badge? Badge { get; private set; }
         public User? FromUser { get; private set; }
         public User? User { get; private set; }
+
+        [ForeignKey("User")]
+        public int UserId { get; }
         public DateTime DateAssigned { get; set; } = DateTime.UtcNow;
 
         public string AwardComment { get; set; } = "";

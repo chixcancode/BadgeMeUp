@@ -30,6 +30,10 @@ namespace BadgeMeUp.Db
             {
                 sqlOptions.EnableRetryOnFailure();
             });
+
+#if DEBUG
+            optionsBuilder.LogTo(Console.WriteLine);
+#endif
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
