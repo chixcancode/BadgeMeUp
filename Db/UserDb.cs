@@ -1,5 +1,6 @@
 ﻿using BadgeMeUp.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace BadgeMeUp.Db
 {
@@ -35,8 +36,9 @@ namespace BadgeMeUp.Db
         public async Task<User> GetOrCreateUser(Guid principalGuid, string principalName)
         {
             var user = await GetUser(principalGuid);
+            principalName = WebUtility.UrlDecode(principalName);
 
-            if(user == null)
+            if (user == null)
             {
                 user = new User();
                 user.PrincipalId = principalGuid;
@@ -47,18 +49,11 @@ namespace BadgeMeUp.Db
             else if(user.PrincipalName != principalName)
             {
                 //The principal name can change, this let's us stay in sync
-                user.PrincipalName = DecodePrincipalName(principalName);
+                user.PrincipalName = principalName;
                 await _context.SaveChangesAsync();
             }
 
             return user;
-        }
-
-        private static string DecodePrincipalName(string encoded)
-        {
-            var decoded = System.Net.WebUtility.UrlDecode(encoded);
-            decoded = decoded.Replace("+", " ");
-            return decoded;
         }
 
         public async Task<User?> GetUser(Guid principalGuid)
