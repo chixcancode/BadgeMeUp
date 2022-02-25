@@ -40,9 +40,10 @@ namespace BadgeMeUp.Pages.badges
                 return NotFound();
             }
 
+            AssignedBadge = await _badgeDb.GetAssignedBadge(id.Value);
             await _badgeDb.DeleteAssignedBadge(id.Value);
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Edit", new { id = AssignedBadge.Badge.Id });
         }
     }
 }
