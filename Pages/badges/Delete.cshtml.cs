@@ -32,7 +32,7 @@ namespace BadgeMeUp.Pages.Badges
                 return NotFound();
             }
 
-            Badge = await _context.Badges.FirstOrDefaultAsync(m => m.Id == id);
+            Badge = await _context.Badges.Include(x => x.BadgeType).FirstOrDefaultAsync(m => m.Id == id);
 
             if (Badge == null)
             {
