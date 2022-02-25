@@ -44,6 +44,12 @@ namespace BadgeMeUp.Db
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
             }
+            else if(user.PrincipalName != principalName)
+            {
+                //The principal name can change, this let's us stay in sync
+                user.PrincipalName = principalName;
+                await _context.SaveChangesAsync();
+            }
 
             return user;
         }
