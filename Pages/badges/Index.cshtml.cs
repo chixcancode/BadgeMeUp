@@ -41,6 +41,11 @@ namespace BadgeMeUp.Pages.Badges
             {
                 var user = await _userDb.GetUser(id.Value);
 
+                if(user == null)
+                {
+                    return NotFound();
+                }
+
                 AssignedBadges = await _badgeDb.GetAssignedBadges(id.Value);
 
                 OtherUser = user.PrincipalName;
