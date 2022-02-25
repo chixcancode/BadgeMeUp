@@ -47,11 +47,18 @@ namespace BadgeMeUp.Db
             else if(user.PrincipalName != principalName)
             {
                 //The principal name can change, this let's us stay in sync
-                user.PrincipalName = principalName;
+                user.PrincipalName = DecodePrincipalName(principalName);
                 await _context.SaveChangesAsync();
             }
 
             return user;
+        }
+
+        private static string DecodePrincipalName(string encoded)
+        {
+            var decoded = System.Net.WebUtility.UrlDecode(encoded);
+            decoded = decoded.Replace("+", " ");
+            return decoded;
         }
 
         public async Task<User?> GetUser(Guid principalGuid)
