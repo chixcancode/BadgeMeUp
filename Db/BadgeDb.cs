@@ -105,6 +105,16 @@ namespace BadgeMeUp.Db
             return await _db.Badges.Include(x => x.BadgeType).ToListAsync();
         }
 
+        public async Task<int> GetBadgeCount()
+        {
+            return await _db.Badges.CountAsync();
+        }
+
+        public async Task<int> GetBadgeAssignmentCount()
+        {
+            return await _db.Badges.CountAsync();
+        }
+
         public IEnumerable<(int place, User? User, int BadgeCount)> GetTopBadgeHolders()
         {
             var query =

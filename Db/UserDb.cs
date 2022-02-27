@@ -90,6 +90,10 @@ namespace BadgeMeUp.Db
             return (found != null);
         }
 
+        public async Task<int> GetNumberOfUsers()
+        {
+            return await _context.Users.CountAsync();
+        }
 
     }
 }
