@@ -112,7 +112,7 @@ namespace BadgeMeUp.Db
 
         public async Task<int> GetBadgeAssignmentCount()
         {
-            return await _db.Badges.CountAsync();
+            return await _db.AssignedBadges.CountAsync();
         }
 
         public IEnumerable<(int place, User? User, int BadgeCount)> GetTopBadgeHolders()
