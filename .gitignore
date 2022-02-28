@@ -2,3 +2,4 @@ obj/
 bin/
 .vs/
 BadgeMeUp.csproj.user
+appsettings.development.json

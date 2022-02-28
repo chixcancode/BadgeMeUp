@@ -43,4 +43,8 @@
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
+  <Target Name="CreateLocalAppSettings" BeforeTargets="BeforeBuild">
+    <Copy SourceFiles="appsettings.json" DestinationFiles="appsettings.development.json" Condition="!Exists('appsettings.development.json')" />
+  </Target>
+
 </Project>
