@@ -1,21 +1,27 @@
 ﻿@model BadgeMeUp.Pages.Shared.BadgeWidget
 
-        <div class="card">
-            <img src="@Model.Badge.BadgeStorageUrl" class="card-img-top" />
-        
-            <div class="card-body">
-                <h5 class="card-title">@Model.Badge.Name</h5>
-                <p class="card-text">
-                    @Html.Raw(BadgeMeUp.Pages.Badges.IndexModel.EncodeMultilineString(@Model.Badge.Description))
-                </p>
-                
-
-            </div>
-            @if (Model.ShowLinks)
-            {
-                <div class="card-footer text-center">
-                    <a class="btn btn-outline-secondary btn-sm" asp-page="Edit" asp-route-id="@Model.Badge.Id">Details</a>
-                    <a class="btn btn-outline-secondary btn-sm" asp-page="Share" asp-route-id="@Model.Badge.Id">Share</a>
-                </div>
-            }
+<div class="card">
+    <div class="badge-widget card-img-top">
+        <div class="overlay"></div>
+        <div class="clipping-path">
+            <div class="title">@Model.Badge.Name</div>
+            <div class="background" style="background-image: url('@Model.Badge.BadgeStorageUrl')">&nbsp;</div>
         </div>
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">@Model.Badge.Name</h5>
+        <p class="card-text">
+            @Html.Raw(BadgeMeUp.Pages.Badges.IndexModel.EncodeMultilineString(@Model.Badge.Description))
+        </p>
+
+
+    </div>
+    @if(Model.ShowLinks)
+    {
+        <div class="card-footer text-center">
+            <a class="btn btn-outline-secondary btn-sm" asp-page="Edit" asp-route-id="@Model.Badge.Id">Details</a>
+            <a class="btn btn-outline-secondary btn-sm" asp-page="Share" asp-route-id="@Model.Badge.Id">Share</a>
+        </div>
+    }
+</div>
