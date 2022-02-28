@@ -34,7 +34,7 @@ else
         @foreach(var assignedBadge in Model.AssignedBadges)
         {
             <div class="col-sm-5 col-lg-3 mb-2">
-                    <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(assignedBadge.Badge, true)" />
+                    <partial name="BadgeWidget" model="@(new BadgeMeUp.Pages.Shared.BadgeWidget(assignedBadge.Badge, true))" />
             </div>
         }
     </div>

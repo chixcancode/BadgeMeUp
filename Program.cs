@@ -38,6 +38,7 @@ app.MapRazorPages();
 
 IConfiguration config = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
+    .AddJsonFile("appsettings.development.json", false)
     .AddEnvironmentVariables()
     .Build();
 

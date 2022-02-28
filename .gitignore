@@ -398,4 +398,6 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Custom Ignores
+.DS_Store
+Thumbs.db
 appsettings.development.json

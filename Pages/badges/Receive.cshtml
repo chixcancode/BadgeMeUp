@@ -12,7 +12,7 @@
         </p>
         
         <div style="width: 14rem;">
-            <partial name="BadgeWidget" model="@new BadgeMeUp.Pages.Shared.BadgeWidget(Model.Badge, false)" />
+            <partial name="BadgeWidget" model="@(new BadgeMeUp.Pages.Shared.BadgeWidget(Model.Badge, false))" />
         </div>
         
         @if(Model.AwardMessage != null)
