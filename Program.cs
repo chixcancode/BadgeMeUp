@@ -1,18 +1,19 @@
+using BadgeMeUp;
+using BadgeMeUp.Db;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddScoped<BadgeMeUp.Db.BadgeContext, BadgeMeUp.Db.BadgeContext>();
-builder.Services.AddScoped<BadgeMeUp.Db.BadgeDb, BadgeMeUp.Db.BadgeDb>();
-builder.Services.AddScoped<BadgeMeUp.Db.UserDb, BadgeMeUp.Db.UserDb>();
-builder.Services.AddScoped<BadgeMeUp.Db.EmailQueueDb, BadgeMeUp.Db.EmailQueueDb>();
-builder.Services.AddScoped<BadgeMeUp.Db.BadgeImageDb, BadgeMeUp.Db.BadgeImageDb>();
+builder.Services.AddScoped<BadgeContext, BadgeContext>();
+builder.Services.AddScoped<BadgeDb, BadgeDb>();
+builder.Services.AddScoped<UserDb, UserDb>();
+builder.Services.AddScoped<EmailQueueDb, EmailQueueDb>();
+builder.Services.AddScoped<BadgeImageDb, BadgeImageDb>();
 builder.Services.AddHttpContextAccessor();
 
-
-
 #if DEBUG == true
-    builder.Services.AddScoped<BadgeMeUp.ICurrentUserInfo, BadgeMeUp.MockCurrentUser>();
+builder.Services.AddScoped<ICurrentUserInfo, MockCurrentUser>();
 #else
     builder.Services.AddScoped<BadgeMeUp.ICurrentUserInfo, BadgeMeUp.AppServiceCurrentUser>();
 #endif
@@ -20,10 +21,9 @@ builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if(!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -42,8 +42,7 @@ IConfiguration config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-
-var dbContext = new BadgeMeUp.Db.BadgeContext(config);
-BadgeMeUp.Db.DbInitializer.Initialize(dbContext);
+var dbContext = new BadgeContext(config);
+dbContext.Initialize();
 
 app.Run();

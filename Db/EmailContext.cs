@@ -1,21 +1,19 @@
 ﻿using BadgeMeUp.Models;
-using Microsoft.EntityFrameworkCore;
 
-namespace BadgeMeUp.Db
+namespace BadgeMeUp.Db;
+
+public class EmailQueueDb
 {
-    public class EmailQueueDb
+    private readonly BadgeContext _db;
+
+    public EmailQueueDb(BadgeContext dbContext)
     {
-        private readonly BadgeContext _db;
+        _db = dbContext;
+    }
 
-        public EmailQueueDb(BadgeContext dbContext)
-        {
-            _db = dbContext;
-        }
-
-        public async Task QueueEmailToSend(EmailQueue email)
-        {
-            await _db.EmailQueue.AddAsync(email);
-            await _db.SaveChangesAsync();
-        }
+    public async Task QueueEmailToSend(EmailQueue email)
+    {
+        await _db.EmailQueue.AddAsync(email);
+        await _db.SaveChangesAsync();
     }
 }

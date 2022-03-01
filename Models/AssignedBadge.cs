@@ -1,24 +1,25 @@
-﻿namespace BadgeMeUp.Models
+﻿namespace BadgeMeUp.Models;
+
+public class AssignedBadge
 {
-    public class AssignedBadge
+    public AssignedBadge() { }
+
+    public AssignedBadge(Badge badge, User fromUser, User user)
     {
-        public int Id { get; set; }
-        public Badge? Badge { get; private set; }
-        public User? FromUser { get; private set; }
-        public User? User { get; private set; }
-        public DateTime DateAssigned { get; set; } = DateTime.UtcNow;
-
-        public string AwardComment { get; set; } = "";
-
-        public AssignedBadge()
-        {
-        }
-
-        public AssignedBadge(Badge badge, User fromUser, User user)
-        {
-            Badge = badge;
-            FromUser = fromUser;
-            User = user;
-        }
+        Badge = badge;
+        FromUser = fromUser;
+        User = user;
     }
+
+    public string AwardComment { get; set; } = string.Empty;
+
+    public Badge? Badge { get; }
+
+    public DateTime DateAssigned { get; set; } = DateTime.UtcNow;
+
+    public User? FromUser { get; }
+
+    public int Id { get; init; }
+
+    public User? User { get; }
 }

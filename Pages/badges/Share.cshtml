@@ -1,4 +1,5 @@
 ﻿@page
+@using BadgeMeUp.Pages.Shared
 @model BadgeMeUp.Pages.Badges.ShareModel
 @{
     ViewData["Title"] = "Share a Badge";
@@ -8,20 +9,20 @@
     <label>Badge Details:</label>
 
     <div style="width: 14rem;">
-        <partial name="BadgeWidget" model="@(new BadgeMeUp.Pages.Shared.BadgeWidget(Model.BadgeToAward, false))" />
+        <partial name="BadgeWidget" model="@(new BadgeWidget(Model.BadgeToAward, false))"/>
     </div>
 </div>
 <div class="mb-3">
-  <label for="awardTextArea" class="form-label">Optional Comments:</label>
-  <textarea class="form-control" id="awardTextArea" rows="3" oninput="awardTextChange()"></textarea>
+    <label for="awardTextArea" class="form-label">Optional Comments:</label>
+    <textarea class="form-control" id="awardTextArea" rows="3" oninput="awardTextChange()"></textarea>
 </div>
 <div style="margin-top: 20px">
-    <label for="ShareUrl">Share this URL to award this badge to anyone that opens it:</label> 
-    <input type="text" class="form-control" asp-for="ShareUrl" id="copy-input" readonly />
+    <label for="ShareUrl">Share this URL to award this badge to anyone that opens it:</label>
+    <input type="text" class="form-control" asp-for="ShareUrl" id="copy-input" readonly/>
     <button class="btn btn-primary" type="button" onclick="copyToClipboard()">Copy to Clipboard</button>
 </div>
 
-<input id="ShareUrlRaw" type="text" asp-for="ShareUrl" hidden />
+<input id="ShareUrlRaw" type="text" asp-for="ShareUrl" hidden/>
 
 <script type="text/javascript">
     function awardTextChange() {

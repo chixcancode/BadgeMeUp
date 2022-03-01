@@ -18,6 +18,10 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    color: #00354c;
+}
+
+h1, h2 {
     font-family: eds-market-main-script, sans-serif !important;
     font-weight: 400 !important;
     font-style: normal !important;

@@ -1,4 +1,5 @@
-﻿@model BadgeMeUp.Pages.Shared.BadgeWidget
+﻿@using BadgeMeUp.Pages.Badges
+@model BadgeWidget
 
 <div class="card">
     <div class="badge-widget card-img-top">
@@ -12,7 +13,7 @@
     <div class="card-body">
         <h5 class="card-title">@Model.Badge.Name</h5>
         <p class="card-text">
-            @Html.Raw(BadgeMeUp.Pages.Badges.IndexModel.EncodeMultilineString(@Model.Badge.Description))
+            @Html.Raw(IndexModel.EncodeMultilineString(Model.Badge.Description))
         </p>
 
 

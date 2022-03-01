@@ -1,18 +1,22 @@
-﻿namespace BadgeMeUp.Models
+﻿namespace BadgeMeUp.Models;
+
+public class Badge
 {
-    public class Badge
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = "";
-        public string? Criteria { get; set; } = "";
-        public string Description { get; set; } = "";
+    public string? BadgeStorageUrl { get; set; }
 
-        //nullable avoids a model binding error in mvc
-        public BadgeType? BadgeType { get; set; }
+    public BadgeType? BadgeType { get; set; }
 
-        public string? BannerImageFileName { get; set; }
-        public string? BadgeStorageUrl  { get; set; }
-        public byte[]? BannerImageBytes { get; set; }
-        public string? BannerImageContentType { get; set; }
-    }
+    public byte[]? BannerImageBytes { get; set; }
+
+    public string? BannerImageContentType { get; set; }
+
+    public string? BannerImageFileName { get; set; }
+
+    public string? Criteria { get; set; } = string.Empty;
+
+    public string Description { get; set; } = string.Empty;
+
+    public int Id { get; init; }
+
+    public string Name { get; set; } = string.Empty;
 }

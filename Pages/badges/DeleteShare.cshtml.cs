@@ -3,46 +3,45 @@ using BadgeMeUp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BadgeMeUp.Pages.badges
+namespace BadgeMeUp.Pages.badges;
+
+public class DeleteShareModel : PageModel
 {
-    public class DeleteShareModel : PageModel
+    private readonly BadgeDb _badgeDb;
+
+    public DeleteShareModel(BadgeDb badgeDb)
     {
-        private readonly BadgeDb _badgeDb;
+        _badgeDb = badgeDb;
+    }
 
-        public AssignedBadge AssignedBadge { get; set; }
+    public AssignedBadge AssignedBadge { get; set; }
 
-        public DeleteShareModel(BadgeDb badgeDb)
+    public async Task<IActionResult> OnGetAsync(int? id)
+    {
+        if(id == null)
         {
-            _badgeDb = badgeDb;
+            return NotFound();
         }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        AssignedBadge = await _badgeDb.GetAssignedBadge(id.Value);
+
+        if(AssignedBadge == null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            AssignedBadge = await _badgeDb.GetAssignedBadge(id.Value);
-
-            if (AssignedBadge == null)
-            {
-                return NotFound();
-            }
-
-            return Page();
+            return NotFound();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int? id)
+    {
+        if(id == null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            await _badgeDb.DeleteAssignedBadge(id.Value);
-
-            return RedirectToPage("./Index");
+            return NotFound();
         }
+
+        await _badgeDb.DeleteAssignedBadge(id.Value);
+
+        return RedirectToPage("./Index");
     }
 }

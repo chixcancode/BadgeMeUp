@@ -1,4 +1,5 @@
 ﻿@page
+@using BadgeMeUp.Pages.Shared
 @model BadgeMeUp.Pages.Badges.ReceiveModel
 @{
     ViewData["Title"] = "Receive Badge";
@@ -10,11 +11,11 @@
             Congratulations! <b>@Model.FromUser.PrincipalName</b> sent you a badge. All you need
             to do is accept it.
         </p>
-        
+
         <div style="width: 14rem;">
-            <partial name="BadgeWidget" model="@(new BadgeMeUp.Pages.Shared.BadgeWidget(Model.Badge, false))" />
+            <partial name="BadgeWidget" model="@(new BadgeWidget(Model.Badge, false))"/>
         </div>
-        
+
         @if(Model.AwardMessage != null)
         {
             <b>Message from @Model.FromUser.PrincipalName:</b>

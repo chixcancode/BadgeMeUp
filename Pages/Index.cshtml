@@ -10,9 +10,13 @@
     @foreach(var assignedBadge in Model.BadgeAssignments)
     {
         <div>
-            <b><a asp-page="badges/Index" asp-route-id="@assignedBadge.User.PrincipalId">@assignedBadge.User.PrincipalName</a></b>
+            <b>
+                <a asp-page="badges/Index" asp-route-id="@assignedBadge.User.PrincipalId">@assignedBadge.User.PrincipalName</a>
+            </b>
             received the
-            <b><a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">@assignedBadge.Badge.Name</a></b>
+            <b>
+                <a asp-page="badges/Edit" asp-route-id="@assignedBadge.Badge.Id">@assignedBadge.Badge.Name</a>
+            </b>
             badge
             @assignedBadge.DateAssigned.Humanize()
         </div>

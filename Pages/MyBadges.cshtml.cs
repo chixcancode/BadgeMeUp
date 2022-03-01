@@ -1,22 +1,9 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using BadgeMeUp.Models;
-using BadgeMeUp.Db;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BadgeMeUp.Pages
+namespace BadgeMeUp.Pages;
+
+public class MyBadgesModel : PageModel
 {
-    public class MyBadgesModel : PageModel
-    {
-
-        public MyBadgesModel()
-        {
-        }
-
-        public async Task<IActionResult> OnGet()
-        {
-            return RedirectToPage("badges/Index");
-        }
-    }
+    public Task<IActionResult> OnGet() => Task.FromResult<IActionResult>(RedirectToPage("badges/Index"));
 }

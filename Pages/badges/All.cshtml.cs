@@ -1,30 +1,24 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using BadgeMeUp.Db;
+using BadgeMeUp.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using BadgeMeUp.Models;
-using BadgeMeUp.Db;
 
-namespace BadgeMeUp.Pages.Badges
+namespace BadgeMeUp.Pages.Badges;
+
+public class AllModel : PageModel
 {
-    public class AllModel : PageModel
+    private readonly BadgeContext _context;
+
+    public AllModel(BadgeContext context)
     {
-        private readonly BadgeContext _context;
+        _context = context;
+    }
 
-        public AllModel(BadgeContext context)
-        {
-            _context = context;
-        }
+    public IList<Badge> Badge { get; set; }
 
-        public IList<Badge> Badge { get;set; }
-
-        public async Task OnGetAsync()
-        {
-            Badge = await _context.Badges.Include(x => x.BadgeType).ToListAsync();
-        }
+    public async Task OnGetAsync()
+    {
+        Badge = await _context.Badges.Include(x => x.BadgeType).ToListAsync();
     }
 }

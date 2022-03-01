@@ -1,64 +1,62 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using BadgeMeUp.Models;
 using BadgeMeUp.Db;
-using Microsoft.EntityFrameworkCore;
+using BadgeMeUp.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BadgeMeUp.Pages.Badges
+namespace BadgeMeUp.Pages.Badges;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly BadgeDb _badgeDb;
+
+    private readonly ICurrentUserInfo _currentUserInfo;
+
+    private readonly UserDb _userDb;
+
+    public IndexModel(BadgeDb badgeDb, UserDb userDb, ICurrentUserInfo currentUserInfo)
     {
-        public List<AssignedBadge>? AssignedBadges { get; set; }
-        public Guid UserId { get; set; }
-        public string? OtherUser { get; set; }
+        _badgeDb = badgeDb;
+        _userDb = userDb;
+        _currentUserInfo = currentUserInfo;
+    }
 
-        private readonly BadgeDb _badgeDb;
-        private readonly UserDb _userDb;
-        private readonly ICurrentUserInfo _currentUserInfo;
+    public List<AssignedBadge>? AssignedBadges { get; set; }
 
-        public IndexModel(BadgeDb badgeDb, UserDb userDb, ICurrentUserInfo currentUserInfo)
+    public string? OtherUser { get; set; }
+
+    public Guid UserId { get; set; }
+
+    public static string EncodeMultilineString(string unencoded) => unencoded.ReplaceLineEndings("<br />");
+
+    public async Task<IActionResult> OnGet(Guid? id)
+    {
+        var currentUser = await _userDb.GetOrCreateUser(_currentUserInfo.GetPrincipalId(), _currentUserInfo.GetPrincipalName());
+
+        if(id == null || currentUser.PrincipalId == id.Value)
         {
-            _badgeDb = badgeDb;
-            _userDb = userDb;
-            _currentUserInfo = currentUserInfo;
+            //Not viewing someone else
+
+            UserId = currentUser.PrincipalId;
+
+            AssignedBadges = await _badgeDb.GetAssignedBadges(currentUser);
+            OtherUser = null;
         }
-
-        public async Task<IActionResult> OnGet(Guid? id)
+        else
         {
-            var currentUser = await _userDb.GetOrCreateUser(_currentUserInfo.GetPrincipalId(), _currentUserInfo.GetPrincipalName());
+            var user = await _userDb.GetUser(id.Value);
 
-            if (id == null || currentUser.PrincipalId == id.Value)
+            AssignedBadges = await _badgeDb.GetAssignedBadges(id.Value);
+
+            OtherUser = user.PrincipalName;
+
+            if(user == null)
             {
-                //Not viewing someone else
-             
-                UserId = currentUser.PrincipalId;
-
-                AssignedBadges = await _badgeDb.GetAssignedBadges(currentUser);
-                OtherUser = null;
-            }
-            else
-            {
-                var user = await _userDb.GetUser(id.Value);
-
-                AssignedBadges = await _badgeDb.GetAssignedBadges(id.Value);
-
-                OtherUser = user.PrincipalName;
-
-                if(user == null)
-                {
-                    return NotFound();
-                }    
-
-                UserId = id.Value;
+                return NotFound();
             }
 
-            return Page();
+            UserId = id.Value;
         }
 
-        public static string EncodeMultilineString(string unencoded)
-        {
-            return unencoded.ReplaceLineEndings("<br />");
-        }
+        return Page();
     }
 }
