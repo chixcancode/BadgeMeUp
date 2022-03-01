@@ -21,7 +21,7 @@ public class IndexModel : PageModel
 
     public async Task<IActionResult> OnGetAsync()
     {
-        BadgeAssignments = await _badgeDb.GetFullBadgeStream(100);
+        BadgeAssignments = await _badgeDb.GetFullBadgeStream(25);
 
         return Page();
     }
