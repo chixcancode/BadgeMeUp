@@ -1,7 +1,7 @@
 ﻿@using BadgeMeUp.Pages.Badges
 @model BadgeWidget
 
-<div class="card">
+<div class="card badge-card">
     <div class="badge-widget card-img-top">
         <div class="overlay"></div>
         <div class="clipping-path">
@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="card-body">
+    <div class="card-body text-center">
         <h5 class="card-title">@Model.Badge.Name</h5>
         <p class="card-text">
             @Html.Raw(IndexModel.EncodeMultilineString(Model.Badge.Description))
@@ -20,7 +20,7 @@
     </div>
     @if(Model.ShowLinks)
     {
-        <div class="card-footer text-center">
+        <div class="text-center">
             <a class="btn btn-outline-secondary btn-sm" asp-page="Edit" asp-route-id="@Model.Badge.Id">Details</a>
             <a class="btn btn-outline-secondary btn-sm" asp-page="Share" asp-route-id="@Model.Badge.Id">Share</a>
         </div>

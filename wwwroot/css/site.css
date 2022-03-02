@@ -79,3 +79,10 @@ h1, h2 {
     background-size: cover;
     z-index: 1;
 }
+.badge-list .row .card{
+    border: none;
+}
+
+.badge-card{
+    height: 395px;
+}
