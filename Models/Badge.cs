@@ -1,4 +1,8 @@
-﻿namespace BadgeMeUp.Models;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using MessagePack;
+
+namespace BadgeMeUp.Models;
 
 public class Badge
 {
@@ -15,6 +19,9 @@ public class Badge
     public string? Criteria { get; set; } = string.Empty;
 
     public string Description { get; set; } = string.Empty;
+
+    [DisplayName("Hide Title Overlay on Badge Render"), NotMapped]
+    public bool HideTitleOverlay { get; set; }
 
     public int Id { get; init; }
 
