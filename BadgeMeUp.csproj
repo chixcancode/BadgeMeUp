@@ -10,31 +10,31 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="BadgeAwardEmail.html"/>
-        <None Remove="boring-default.jpg"/>
+        <None Remove="BadgeAwardEmail.html" />
+        <None Remove="boring-default.jpg" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="BadgeAwardEmail.html"/>
+        <EmbeddedResource Include="BadgeAwardEmail.html" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="wwwroot\images\badge-types.png"/>
+        <None Include="wwwroot\images\badge-types.png" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0"/>
-        <PackageReference Include="Humanizer.Core" Version="2.14.1"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1"/>
+        <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
+        <PackageReference Include="Humanizer.Core" Version="2.14.1" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Graph" Version="4.17.0"/>
-        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0"/>
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1"/>
-        <PackageReference Include="SixLabors.ImageSharp" Version="2.0.0"/>
-        <PackageReference Include="System.Drawing.Common" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Graph" Version="4.17.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="2.0.0" />
+        <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,7 +44,7 @@
     </ItemGroup>
 
     <Target Name="CreateLocalAppSettings" BeforeTargets="BeforeBuild">
-        <Copy SourceFiles="appsettings.json" DestinationFiles="appsettings.development.json" Condition="!Exists('appsettings.development.json')"/>
+        <Copy SourceFiles="appsettings.json" DestinationFiles="appsettings.development.json" Condition="!Exists('appsettings.development.json')" />
     </Target>
 
 </Project>
