@@ -1,5 +1,6 @@
 ﻿using BadgeMeUp.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace BadgeMeUp.Db;
 
@@ -12,42 +13,9 @@ public class UserDb
         _context = context;
     }
 
-    public async Task AssignBadgeToUser(User fromUser, User toUser, Badge badge, string? comment)
-    {
-        var newAssignment = new AssignedBadge(badge, fromUser, toUser);
-        if(comment != null)
-        {
-            newAssignment.AwardComment = comment;
-        }
-
-        _context.AssignedBadges.Add(newAssignment);
-        await _context.SaveChangesAsync();
-    }
-
     public async Task<List<User>> GetAllUsers()
     {
         return await _context.Users.OrderBy(x => x.PrincipalName).ToListAsync();
-    }
-
-    public async Task<User> GetOrCreateUser(Guid principalGuid, string principalName)
-    {
-        var user = await GetUser(principalGuid);
-
-        if(user == null)
-        {
-            user = new User();
-            user.PrincipalId = principalGuid;
-            user.PrincipalName = principalName;
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-        }
-
-        return user;
-    }
-
-    public async Task<User?> GetUser(Guid principalGuid)
-    {
-        return await _context.Users.SingleOrDefaultAsync(x => x.PrincipalId == principalGuid);
     }
 
     public List<User> GetUsersWithoutBadge(int badgeId)
@@ -64,10 +32,44 @@ public class UserDb
         return q.ToList();
     }
 
-    public async Task<bool> HasBadge(User user, Badge badge)
+    public async Task<User> GetOrCreateUser(Guid principalGuid, string principalName)
     {
-        var found = await _context.AssignedBadges.SingleOrDefaultAsync(x => x.User == user && x.Badge == badge);
-        return found != null;
+        var user = await GetUser(principalGuid);
+        principalName = WebUtility.UrlDecode(principalName);
+
+        if(user == null)
+        {
+            user = new User();
+            user.PrincipalId = principalGuid;
+            user.PrincipalName = principalName;
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+        }
+        else if(user.PrincipalName != principalName)
+        {
+            //The principal name can change, this let's us stay in sync
+            user.PrincipalName = principalName;
+            await _context.SaveChangesAsync();
+        }
+
+        return user;
+    }
+
+    public async Task<User?> GetUser(Guid principalGuid)
+    {
+        return await _context.Users.SingleOrDefaultAsync(x => x.PrincipalId == principalGuid);
+    }
+
+    public async Task AssignBadgeToUser(User fromUser, User toUser, Badge badge, string? comment)
+    {
+        var newAssignment = new AssignedBadge(badge, fromUser, toUser);
+        if(comment != null)
+        {
+            newAssignment.AwardComment = comment;
+        }
+
+        _context.AssignedBadges.Add(newAssignment);
+        await _context.SaveChangesAsync();
     }
 
     public async Task RemoveBadgeFromUser(User user, Badge badge)
@@ -80,4 +82,12 @@ public class UserDb
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<bool> HasBadge(User user, Badge badge)
+    {
+        var found = await _context.AssignedBadges.SingleOrDefaultAsync(x => x.User == user && x.Badge == badge);
+        return found != null;
+    }
+
+    public async Task<int> GetNumberOfUsers() => await _context.Users.CountAsync();
 }

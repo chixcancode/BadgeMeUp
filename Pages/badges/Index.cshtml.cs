@@ -1,17 +1,25 @@
-using BadgeMeUp.Db;
-using BadgeMeUp.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using BadgeMeUp.Models;
+using BadgeMeUp.Db;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BadgeMeUp.Pages.Badges;
 
 public class IndexModel : PageModel
 {
+    public List<AssignedBadge>? AssignedBadges { get; set; }
+
+    public Guid UserId { get; set; }
+
+    public string? OtherUser { get; set; }
+
     private readonly BadgeDb _badgeDb;
 
-    private readonly ICurrentUserInfo _currentUserInfo;
-
     private readonly UserDb _userDb;
+
+    private readonly ICurrentUserInfo _currentUserInfo;
 
     public IndexModel(BadgeDb badgeDb, UserDb userDb, ICurrentUserInfo currentUserInfo)
     {
@@ -19,14 +27,6 @@ public class IndexModel : PageModel
         _userDb = userDb;
         _currentUserInfo = currentUserInfo;
     }
-
-    public List<AssignedBadge>? AssignedBadges { get; set; }
-
-    public string? OtherUser { get; set; }
-
-    public Guid UserId { get; set; }
-
-    public static string EncodeMultilineString(string unencoded) => unencoded.ReplaceLineEndings("<br />");
 
     public async Task<IActionResult> OnGet(Guid? id)
     {
@@ -45,6 +45,11 @@ public class IndexModel : PageModel
         {
             var user = await _userDb.GetUser(id.Value);
 
+            if(user == null)
+            {
+                return NotFound();
+            }
+
             AssignedBadges = await _badgeDb.GetAssignedBadges(id.Value);
 
             OtherUser = user.PrincipalName;
@@ -59,4 +64,6 @@ public class IndexModel : PageModel
 
         return Page();
     }
+
+    public static string EncodeMultilineString(string unencoded) => unencoded.ReplaceLineEndings("<br />");
 }

@@ -1,0 +1,24 @@
+﻿@page
+@model BadgeMeUp.Pages.statsModel
+@{
+    ViewData["Title"] = "Stats";
+}
+
+<div class="row">
+    <div class="col-3">
+        <table class="table">
+            <tr>
+                <td>Number of users</td>
+                <td>@Model.NumberOfUsers</td>
+            </tr>
+            <tr>
+                <td>Number of badges</td>
+                <td>@Model.NumberOfBadges</td>
+            </tr>
+            <tr>
+                <td>Number of badge assignments</td>
+                <td>@Model.NumberOfBadgeAssignments</td>
+            </tr>
+        </table>
+    </div>
+</div>

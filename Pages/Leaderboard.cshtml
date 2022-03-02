@@ -1,0 +1,58 @@
+﻿@page
+@model BadgeMeUp.Pages.LeaderboardModel
+@{
+    ViewData["Title"] = "Leaderboards";
+}
+
+<div class="row">
+    <div class="col">
+        <h5>Received</h5>
+        <table class="table">
+            <thead>
+            <tr>
+                <td>Place</td>
+                <td>User</td>
+                <td>Badges</td>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach(var record in @Model.TopUsers)
+            {
+                <tr>
+                    <td>#@record.Item1</td>
+                    <td>
+                        <a asp-page="badges/Index" asp-route-id="@record.Item2.PrincipalId">@record.Item2.PrincipalName</a>
+                    </td>
+                    <td>@record.Item3</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="col">
+        <div class="col">
+            <h5>Given</h5>
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>Place</td>
+                    <td>User</td>
+                    <td>Awarded</td>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach(var record in @Model.TopGivers)
+                {
+                    <tr>
+                        <td>#@record.Item1</td>
+                        <td>
+                            <a asp-page="badges/Index" asp-route-id="@record.Item2.PrincipalId">@record.Item2.PrincipalName</a>
+                        </td>
+                        <td>@record.Item3</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

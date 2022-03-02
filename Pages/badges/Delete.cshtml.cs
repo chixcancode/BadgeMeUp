@@ -1,17 +1,21 @@
 ﻿#nullable disable
-using BadgeMeUp.Db;
-using BadgeMeUp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using BadgeMeUp.Models;
+using BadgeMeUp.Db;
 
 namespace BadgeMeUp.Pages.Badges;
 
 public class DeleteModel : PageModel
 {
-    private readonly BadgeDb _badgeDb;
-
     private readonly BadgeContext _context;
+
+    private readonly BadgeDb _badgeDb;
 
     public DeleteModel(BadgeContext context, BadgeDb badgeDb)
     {
@@ -29,7 +33,7 @@ public class DeleteModel : PageModel
             return NotFound();
         }
 
-        Badge = await _context.Badges.FirstOrDefaultAsync(m => m.Id == id);
+        Badge = await _context.Badges.Include(x => x.BadgeType).FirstOrDefaultAsync(m => m.Id == id);
 
         if(Badge == null)
         {

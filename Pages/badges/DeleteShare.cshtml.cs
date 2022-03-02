@@ -9,12 +9,12 @@ public class DeleteShareModel : PageModel
 {
     private readonly BadgeDb _badgeDb;
 
+    public AssignedBadge AssignedBadge { get; set; }
+
     public DeleteShareModel(BadgeDb badgeDb)
     {
         _badgeDb = badgeDb;
     }
-
-    public AssignedBadge AssignedBadge { get; set; }
 
     public async Task<IActionResult> OnGetAsync(int? id)
     {
@@ -40,8 +40,12 @@ public class DeleteShareModel : PageModel
             return NotFound();
         }
 
+        AssignedBadge = await _badgeDb.GetAssignedBadge(id.Value);
         await _badgeDb.DeleteAssignedBadge(id.Value);
 
-        return RedirectToPage("./Index");
+        return RedirectToPage("Edit", new
+        {
+            id = AssignedBadge.Badge.Id
+        });
     }
 }

@@ -1,7 +1,27 @@
-﻿namespace BadgeMeUp.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BadgeMeUp.Models;
 
 public class AssignedBadge
 {
+    public int Id { get; set; }
+
+    public Badge? Badge { get; private set; }
+
+    public User? FromUser { get; private set; }
+
+    public User? User { get; private set; }
+
+    [ForeignKey("User")]
+    public int UserId { get; }
+
+    [ForeignKey("FromUser")]
+    public int FromUserId { get; }
+
+    public DateTime DateAssigned { get; set; } = DateTime.UtcNow;
+
+    public string AwardComment { get; set; } = "";
+
     public AssignedBadge() { }
 
     public AssignedBadge(Badge badge, User fromUser, User user)
@@ -10,16 +30,4 @@ public class AssignedBadge
         FromUser = fromUser;
         User = user;
     }
-
-    public string AwardComment { get; set; } = string.Empty;
-
-    public Badge? Badge { get; }
-
-    public DateTime DateAssigned { get; set; } = DateTime.UtcNow;
-
-    public User? FromUser { get; }
-
-    public int Id { get; init; }
-
-    public User? User { get; }
 }

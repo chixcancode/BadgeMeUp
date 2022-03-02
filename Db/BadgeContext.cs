@@ -1,26 +1,27 @@
 ﻿using BadgeMeUp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace BadgeMeUp.Db;
 
 public class BadgeContext : DbContext
 {
+    public DbSet<User> Users => Set<User>();
+
+    public DbSet<Badge> Badges => Set<Badge>();
+
+    public DbSet<BadgeType> BadgeTypes => Set<BadgeType>();
+
+    public DbSet<AssignedBadge> AssignedBadges => Set<AssignedBadge>();
+
+    public DbSet<EmailQueue> EmailQueue => Set<EmailQueue>();
+
     private readonly IConfiguration _configuration;
 
     public BadgeContext(IConfiguration configuration)
     {
         _configuration = configuration;
     }
-
-    public DbSet<AssignedBadge> AssignedBadges => Set<AssignedBadge>();
-
-    public DbSet<Badge> Badges => Set<Badge>();
-
-    public DbSet<BadgeType> BadgeTypes => Set<BadgeType>();
-
-    public DbSet<EmailQueue> EmailQueue => Set<EmailQueue>();
-
-    public DbSet<User> Users => Set<User>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -30,6 +31,10 @@ public class BadgeContext : DbContext
         {
             sqlOptions.EnableRetryOnFailure();
         });
+
+#if DEBUG
+        optionsBuilder.LogTo(Console.WriteLine);
+#endif
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
