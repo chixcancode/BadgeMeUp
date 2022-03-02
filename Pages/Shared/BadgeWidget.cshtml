@@ -5,7 +5,10 @@
     <div class="badge-widget card-img-top">
         <div class="overlay"></div>
         <div class="clipping-path">
-            <div class="title">@Model.Badge.Name</div>
+            @if(!Model.Badge.HideTitleOverlay)
+            {
+                <div class="title">@Model.Badge.Name</div>
+            }
             <div class="background" style="background-image: url('@Model.Badge.BadgeStorageUrl')">&nbsp;</div>
         </div>
     </div>

@@ -64,6 +64,7 @@ public class EditModel : PageModel
         updateBadge.Name = Badge.Name;
         updateBadge.Description = Badge.Description;
         updateBadge.Criteria = Badge.Criteria ?? "";
+        updateBadge.HideTitleOverlay = Badge.HideTitleOverlay;
 
         if(badgeImage != null)
         {
