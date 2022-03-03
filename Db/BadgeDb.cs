@@ -118,8 +118,8 @@ public class BadgeDb
                     User = group.First().User, BadgeCount = group.Count()
                 })
                 .ToList()
-                .Take(10)
-                .OrderByDescending(x => x.BadgeCount);
+                .OrderByDescending(x => x.BadgeCount)
+                .Take(10);
 
         //zip adds in the place number
         return query.Zip(Enumerable.Range(1, 10000), (o, i) => (i, o.User, o.BadgeCount));
@@ -136,8 +136,8 @@ public class BadgeDb
                     User = group.First().FromUser, BadgeCount = group.Count()
                 })
                 .ToList()
-                .Take(10)
-                .OrderByDescending(x => x.BadgeCount);
+                .OrderByDescending(x => x.BadgeCount)
+                .Take(10);
 
         //zip adds in the place number
         return query.Zip(Enumerable.Range(1, 10000), (o, i) => (i, o.User, o.BadgeCount));
