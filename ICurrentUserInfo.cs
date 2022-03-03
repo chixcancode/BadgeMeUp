@@ -1,8 +1,8 @@
-﻿namespace BadgeMeUp
+﻿namespace BadgeMeUp;
+
+public interface ICurrentUserInfo
 {
-    public interface ICurrentUserInfo
-    {
-        public string? GetPrincipalName();
-        public Guid GetPrincipalId();
-    }
+    public Guid GetPrincipalId();
+
+    public string? GetPrincipalName();
 }

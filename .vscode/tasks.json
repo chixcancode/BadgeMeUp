@@ -1,0 +1,74 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/BadgeMeUp.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/BadgeMeUp.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/BadgeMeUp.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "start database and storage services",
+            "command": "docker-compose",
+            "type": "process",
+            "args": [
+                "up",
+                "-d",
+                "database",
+                "storage"
+            ]
+        },
+        {
+            "label": "build webapp",
+            "command": "docker-compose",
+            "type": "shell",
+            "args": [
+                "build",
+                "webapp"
+            ]
+        },
+        {
+            "label": "start webapp",
+            "command": "docker-compose",
+            "type": "shell",
+            "args": [
+                "up",
+                "webapp"
+            ],
+            "dependsOn": [
+                "start database and storage services",
+                "build webapp"
+            ]
+        }
+    ]
+}

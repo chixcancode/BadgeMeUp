@@ -6,9 +6,9 @@
 
 <p>
     Name: @Model.Name
-    <br /> Principal ID: @Model.PrincipalId
-    <br />
-    @foreach(var header in @Model.Headers)
+    <br/> Principal ID: @Model.PrincipalId
+    <br/>
+    @foreach(var header in Model.Headers)
     {
         <div>@header.Key: @header.Value</div>
     }

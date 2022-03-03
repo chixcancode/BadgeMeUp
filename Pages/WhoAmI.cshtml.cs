@@ -1,39 +1,42 @@
 using BadgeMeUp.Db;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace BadgeMeUp.Pages
+namespace BadgeMeUp.Pages;
+
+public class WhoAmIModel : PageModel
 {
-    public class WhoAmIModel : PageModel
+    private readonly IHttpContextAccessor _contextAccessor;
+
+    private readonly UserDb _userDb;
+
+    private readonly ICurrentUserInfo _userInfo;
+
+    public WhoAmIModel(ICurrentUserInfo userInfo, UserDb userDb, IHttpContextAccessor context, IHeaderDictionary? headers)
     {
-        public string? Name  { get; set; }  
-        public Guid PrincipalId { get; set; }
-        public IHeaderDictionary Headers { get; set; }
+        _userInfo = userInfo;
+        _userDb = userDb;
 
-        private readonly ICurrentUserInfo _userInfo;
-        private readonly UserDb _userDb;
+        _contextAccessor = context;
+        Headers = headers;
+    }
 
-        private readonly IHttpContextAccessor _contextAccessor;
+    public IHeaderDictionary? Headers { get; private set; }
 
-        public WhoAmIModel(ICurrentUserInfo userInfo, UserDb userDb, IHttpContextAccessor context)
+    public string? Name { get; private set; }
+
+    public Guid PrincipalId { get; private set; }
+
+    public async Task OnGet()
+    {
+        Name = _userInfo.GetPrincipalName();
+        PrincipalId = _userInfo.GetPrincipalId();
+
+        if(Name != null)
         {
-            _userInfo = userInfo;
-            _userDb = userDb;
-
-            _contextAccessor = context;
+            //Call this to create the user if it doesn't already exist
+            await _userDb.GetOrCreateUser(PrincipalId, Name);
         }
 
-        public async Task OnGet()
-        {
-            Name = _userInfo.GetPrincipalName();
-            PrincipalId = _userInfo.GetPrincipalId();
-
-            if (Name != null)
-            {
-                //Call this to create the user if it doesn't already exist
-                await _userDb.GetOrCreateUser(PrincipalId, Name);
-            }
-
-            Headers = _contextAccessor.HttpContext.Request.Headers;
-        }
+        Headers = _contextAccessor.HttpContext?.Request.Headers;
     }
 }

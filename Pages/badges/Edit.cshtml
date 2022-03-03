@@ -10,10 +10,10 @@
         <h2>Details</h2>
         <form enctype="multipart/form-data" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Badge.Id" />
+            <input type="hidden" asp-for="Badge.Id"/>
             <div class="form-group">
                 <label asp-for="Badge.Name" class="control-label"></label>
-                <input asp-for="Badge.Name" class="form-control" placeholder="Day of Learning 2050" />
+                <input asp-for="Badge.Name" class="form-control" placeholder="Day of Learning 2050"/>
                 <span asp-validation-for="Badge.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -27,19 +27,26 @@
                     placeholder="1. Successful Delivery of 2 Engagements
 2. Reverse Shadowed"></textarea>
                 <span asp-validation-for="Badge.Criteria" class="text-danger"></span>
-            </div>            
+            </div>
             <div class="form-group">
                 <label asp-for="Badge.BadgeType" class="control-label"></label>
                 <select class="form-select" name="badgeTypeId"
-                    asp-items="@(new SelectList(Model.BadgeTypes, "Id", "Name", Model.SelectedBadgeTypeId))"></select>
+                        asp-items="@(new SelectList(Model.BadgeTypes, "Id", "Name", Model.SelectedBadgeTypeId))">
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="badgeImage" class="control-label">Upload new banner image (250w x 100h or equal ratio is ideal):</label>
-                <input type="file" asp-for="badgeImage" accept="image/*" />
+                <input type="file" asp-for="badgeImage" accept="image/*"/>
                 <span asp-validation-for="badgeImage" class="text-danger"></span>
             </div>
+            @* TODO: enable this when we get migrations working *@
+            @* <div class="form-group"> *@
+            @*     <label asp-for="Badge.HideTitleOverlay" class="control-label"></label> *@
+            @*     <input type="checkbox" asp-for="Badge.HideTitleOverlay" class="form-control" /> *@
+            @*     <span asp-validation-for="Badge.HideTitleOverlay" class="text-danger"></span> *@
+            @* </div> *@
             <div class="form-group">
-                <input type="submit" value="Update" class="btn btn-primary" />
+                <input type="submit" value="Update" class="btn btn-primary"/>
                 <a asp-page="./Delete" asp-route-id="@Model.Badge.Id" class="btn btn-danger">Delete</a>
                 <a class="btn btn-outline-secondary" asp-page="Share" asp-route-id="@Model.Badge.Id">Share</a>
             </div>
@@ -49,19 +56,19 @@
         <h2>History</h2>
         <table class="table">
             <thead>
-                <tr>
-                    <td>From</td>
-                    <td>To</td>
-                    <td>Comment</td>
-                    <td>Actions</td>
-                </tr>
+            <tr>
+                <td>From</td>
+                <td>To</td>
+                <td>Comment</td>
+                <td>Actions</td>
+            </tr>
             </thead>
-            @foreach(var assignment in @Model.BadgeHistory)
+            @foreach(var assignment in Model.BadgeHistory)
             {
                 <tr>
-                    @if (assignment != null)
+                    @if(assignment != null)
                     {
-                        if (assignment.FromUser == null)
+                        if(assignment.FromUser == null)
                         {
                             <td></td>
                         }
@@ -69,16 +76,20 @@
                         {
                             <td>@assignment.FromUser.PrincipalName</td>
                         }
-                        <td><a asp-page="Index" asp-route-id="@assignment.User.PrincipalId">@assignment.User.PrincipalName</a></td>
+                        <td>
+                            <a asp-page="Index" asp-route-id="@assignment.User.PrincipalId">@assignment.User.PrincipalName</a>
+                        </td>
                         <td>@assignment.AwardComment</td>
-                        <td><a asp-page="./DeleteShare" asp-route-id="@assignment.Id" class="btn btn-danger btn-sm">Delete</a></td>
+                        <td>
+                            <a asp-page="./DeleteShare" asp-route-id="@assignment.Id" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
                     }
-            </tr>
+                </tr>
             }
         </table>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

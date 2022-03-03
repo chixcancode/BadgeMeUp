@@ -9,53 +9,54 @@ using Microsoft.EntityFrameworkCore;
 using BadgeMeUp.Models;
 using BadgeMeUp.Db;
 
-namespace BadgeMeUp.Pages.Badges
+namespace BadgeMeUp.Pages.Badges;
+
+public class DeleteModel : PageModel
 {
-    public class DeleteModel : PageModel
+    private readonly BadgeContext _context;
+
+    private readonly BadgeDb _badgeDb;
+
+    public DeleteModel(BadgeContext context, BadgeDb badgeDb)
     {
-        private readonly BadgeContext _context;
-        private readonly BadgeDb _badgeDb;
+        _context = context;
+        _badgeDb = badgeDb;
+    }
 
-        public DeleteModel(BadgeContext context, BadgeDb badgeDb)
+    [BindProperty]
+    public Badge Badge { get; set; }
+
+    public async Task<IActionResult> OnGetAsync(int? id)
+    {
+        if(id == null)
         {
-            _context = context;
-            _badgeDb = badgeDb;
+            return NotFound();
         }
 
-        [BindProperty]
-        public Badge Badge { get; set; }
+        Badge = await _context.Badges.Include(x => x.BadgeType).FirstOrDefaultAsync(m => m.Id == id);
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        if(Badge == null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Badge = await _context.Badges.Include(x => x.BadgeType).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Badge == null)
-            {
-                return NotFound();
-            }
-            return Page();
+            return NotFound();
         }
 
-        public async Task<IActionResult> OnPostAsync(int? id)
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int? id)
+    {
+        if(id == null)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Badge = await _context.Badges.FindAsync(id);
-
-            if (Badge != null)
-            {
-                _badgeDb.DeleteBadge(Badge);
-            }
-
-            return RedirectToPage("./Index");
+            return NotFound();
         }
+
+        Badge = await _context.Badges.FindAsync(id);
+
+        if(Badge != null)
+        {
+            _badgeDb.DeleteBadge(Badge);
+        }
+
+        return RedirectToPage("./Index");
     }
 }
